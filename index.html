@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>故宫历史时空之旅 - 从1925到2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Serif SC', serif;
+            color: #333;
+            background-color: #f5f1e8;
+            overflow-x: hidden;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(26, 15, 12, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            color: #e6d2a9;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: #e6d2a9;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #daa520;
+        }
+        
+        .nav-links a.active {
+            color: #daa520;
+            font-weight: 600;
+            border-bottom: 2px solid #daa520;
+        }
+        
+        /* 封面页样式 */
+        .cover-section {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .cover-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .cover-bg.active {
+            opacity: 1;
+        }
+        
+        .cover-text {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: #fff;
+            padding: 2rem;
+            max-width: 800px;
+            background-color: rgba(138, 37, 28, 0.7);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .cover-text h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            letter-spacing: 2px;
+        }
+        
+        .cover-text p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: #fff;
+            text-align: center;
+            animation: bounce 2s infinite;
+        }
+        
+        .scroll-indicator i {
+            font-size: 1.8rem;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+        
+        /* 时间轴样式 */
+        .timeline-section {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #1a0f0c, #2d1c16);
+            padding: 5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-title {
+            text-align: center;
+            color: #e6d2a9;
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background-color: #b8860b;
+        }
+        
+        .timeline-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            right: 50px;
+            height: 6px;
+            background: linear-gradient(to right, #b8860b, #daa520, #b8860b);
+            transform: translateY(-50%);
+            border-radius: 3px;
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.5);
+        }
+        
+        .timeline-items {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .timeline-item {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .year-marker {
+            width: 70px;
+            height: 70px;
+            background-color: #8a251c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: #e6d2a9;
+            font-size: 1.4rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 4px solid #daa520;
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .year-marker:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(218, 165, 32, 0.9);
+            background-color: #a52d22;
+        }
+        
+        .year-info {
+            color: #e6d2a9;
+            font-size: 1.1rem;
+            max-width: 120px;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+        
+        /* 卡牌区域样式 */
+        .cards-section {
+            min-height: 100vh;
+            background-color: #f5f1e8;
+            padding: 5rem 2rem;
+        }
+        
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .card-link {
+            text-decoration: none;
+            display: block;
+            width: 280px;
+            height: 400px;
+            perspective: 1000px;
+        }
+        
+        .history-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-link:hover .history-card {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .card-front {
+            background-color: #8a251c;
+            color: #e6d2a9;
+            border: 8px solid #daa520;
+        }
+        
+        .card-front i {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            color: #daa520;
+        }
+        
+        .card-title {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .card-back {
+            background-color: #2d1c16;
+            color: #e6d2a9;
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+            padding-top: 2.5rem;
+        }
+        
+        .card-back h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #daa520;
+        }
+        
+        .card-back p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: #1a0f0c;
+            color: #e6d2a9;
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .footer-logo {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #daa520;
+        }
+        
+        .footer-nav {
+            margin: 1.5rem 0;
+        }
+        
+        .footer-nav a {
+            color: #e6d2a9;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        
+        .footer-nav a:hover {
+            color: #daa520;
+            text-decoration: underline;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1100px) {
+            .cards-container {
+                gap: 1.5rem;
+            }
+            
+            .card-link {
+                width: 250px;
+                height: 380px;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .timeline-line {
+                left: 30px;
+                right: 30px;
+            }
+            
+            .year-marker {
+                width: 60px;
+                height: 60px;
+                font-size: 1.2rem;
+            }
+            
+            .cover-text h1 {
+                font-size: 2.2rem;
+            }
+            
+            .cover-text p {
+                font-size: 1.1rem;
+            }
+            
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-items {
+                flex-direction: column;
+                align-items: center;
+                gap: 60px;
+            }
+            
+            .timeline-line {
+                left: 50%;
+                width: 6px;
+                height: 85%;
+                top: 100px;
+                transform: none;
+            }
+            
+            .year-marker {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .cards-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .card-link {
+                width: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cover-text {
+                padding: 1.5rem;
+                margin: 0 1rem;
+            }
+            
+            .cover-text h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .card-link {
+                width: 280px;
+                height: 360px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-landmark"></i>
+            <span>故宫博物院</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">首页</a></li>
+            <li><a href="space-open-history.html">空间开放史</a></li>
+            <li><a href="cultural-relic-history.html">文物生命史</a></li>
+            <li><a href="guardian-history.html">故宫守护史</a></li>
+            <li><a href="culture-communication-history.html">文化传播史</a></li>
+        </ul>
+    </nav>
+    
+    <!-- 封面页 -->
+    <section class="cover-section">
+        <!-- 背景图片将通过JavaScript动态切换 -->
+        <div class="cover-bg active" id="bg1"></div>
+        <div class="cover-bg" id="bg2"></div>
+        <div class="cover-bg" id="bg3"></div>
+        <div class="cover-bg" id="bg4"></div>
+        
+        <div class="cover-text">
+            <h1>故宫博物院</h1>
+            <p>1925 年 10 月的一个清晨，紫禁城的午门第一次向普通人开启。</p>
+        </div>
+        
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+            <p>向下滑动</p>
+        </div>
+    </section>
+    
+    <!-- 时间轴区域 -->
+    <section class="timeline-section">
+        <h2 class="section-title">故宫百年历程</h2>
+        
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            
+            <div class="timeline-items">
+                <!-- 时间轴点将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- 卡牌区域 -->
+    <section class="cards-section">
+        <h2 class="section-title" style="color: #8a251c;">故宫历史维度</h2>
+        
+        <div class="cards-container">
+            <!-- 卡牌将通过JavaScript动态生成 -->
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-logo">
+            <i class="fas fa-landmark"></i>
+        </div>
+        <p>故宫博物院 | 成立于1925年 | 世界文化遗产</p>
+        <div class="footer-nav">
+            <a href="index.html">首页</a>
+            <a href="space-open-history.html">空间开放史</a>
+            <a href="cultural-relic-history.html">文物生命史</a>
+            <a href="guardian-history.html">故宫守护史</a>
+            <a href="culture-communication-history.html">文化传播史</a>
+        </div>
+        <p>© 2025 故宫博物院百年纪念 | 本页面为纪念故宫博物院成立100周年而设计</p>
+    </footer>
+
+    <script>
+        // 封面背景图片切换
+        document.addEventListener('DOMContentLoaded', function() {
+            // 背景图片数组
+            const bgImages = [
+                'https://images.unsplash.com/photo-1544984243-ec57ea16fe25?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80',
+                'https://images.unsplash.com/photo-1594810204151-d1f39d82a6c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80',
+                'https://images.unsplash.com/photo-1586105251261-72a756497a11?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80',
+                'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80'
+            ];
+            
+            // 设置背景图片
+            for (let i = 0; i < bgImages.length; i++) {
+                const bgElement = document.getElementById(`bg${i+1}`);
+                if (bgElement) {
+                    bgElement.style.backgroundImage = `url('${bgImages[i]}')`;
+                }
+            }
+            
+            // 背景切换逻辑
+            let currentBg = 0;
+            const bgElements = document.querySelectorAll('.cover-bg');
+            
+            function switchBackground() {
+                // 隐藏当前背景
+                bgElements[currentBg].classList.remove('active');
+                
+                // 计算下一个背景索引
+                currentBg = (currentBg + 1) % bgElements.length;
+                
+                // 显示下一个背景
+                bgElements[currentBg].classList.add('active');
+            }
+            
+            // 每5秒切换一次背景
+            setInterval(switchBackground, 5000);
+            
+            // 初始化时间轴
+            initTimeline();
+            
+            // 初始化卡牌
+            initCards();
+            
+            // 监听滚动事件，实现时间轴渐显效果
+            window.addEventListener('scroll', handleScroll);
+            
+            // 初始检查一次滚动位置
+            handleScroll();
+        });
+        
+        // 初始化时间轴
+        function initTimeline() {
+            const timelineItems = document.querySelector('.timeline-items');
+            
+            // 时间轴数据：从1925年到2025年，每10年一个点
+            const years = [
+                {year: 1925, info: "故宫博物院成立"},
+                {year: 1935, info: "首次文物南迁"},
+                {year: 1945, info: "抗战胜利后文物回迁"},
+                {year: 1955, info: "建国后首次大规模修缮"},
+                {year: 1965, info: "建立文物修复工作室"},
+                {year: 1975, info: "重新对外开放"},
+                {year: 1985, info: "被列为世界文化遗产"},
+                {year: 1995, info: "启动数字化保护工程"},
+                {year: 2005, info: "百年大修工程启动"},
+                {year: 2015, info: "游客数量突破1500万"},
+                {year: 2025, info: "故宫博物院百年庆典"}
+            ];
+            
+            // 生成时间轴HTML
+            years.forEach(item => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                timelineItem.innerHTML = `
+                    <div class="year-marker">${item.year}</div>
+                    <div class="year-info">${item.info}</div>
+                `;
+                timelineItems.appendChild(timelineItem);
+            });
+        }
+        
+        // 初始化卡牌
+        function initCards() {
+            const cardsContainer = document.querySelector('.cards-container');
+            
+            // 卡牌数据
+            const cards = [
+                {
+                    title: "空间开放史",
+                    icon: "fas fa-door-open",
+                    description: "从皇家禁地到公共博物馆，故宫的空间开放历程见证了中国的社会变迁。1925年故宫博物院成立，紫禁城首次向公众开放。此后百年间，开放区域从30%扩展到80%以上，让更多人可以走进这座宏伟的宫殿。",
+                    link: "space-open-history.html"
+                },
+                {
+                    title: "文物生命史",
+                    icon: "fas fa-history",
+                    description: "故宫收藏的186万余件文物，每一件都有其独特的历史生命。从制作、使用、收藏到保护修复，这些文物的生命历程反映了中华文明的延续与发展。故宫的文物修复技术是世界文化遗产保护的重要典范。",
+                    link: "cultural-relic-history.html"
+                },
+                {
+                    title: "故宫守护史",
+                    icon: "fas fa-shield-alt",
+                    description: "百年来，数代故宫人肩负着守护中华文明瑰宝的重任。从战乱时期的文物南迁，到和平年代的科学保护，故宫守护者们用智慧与汗水确保了文化遗产的安全传承。他们的故事是故宫历史的重要组成部分。",
+                    link: "guardian-history.html"
+                },
+                {
+                    title: "文化传播史",
+                    icon: "fas fa-globe-asia",
+                    description: "故宫不仅是中国的，也是世界的。通过展览、出版、数字化和对外交流，故宫文化传播到全球各地。近年来，故宫文创产品让传统文化以创新形式走进日常生活，成为连接古今中外的重要桥梁。",
+                    link: "culture-communication-history.html"
+                }
+            ];
+            
+            // 生成卡牌HTML
+            cards.forEach(card => {
+                const cardLink = document.createElement('a');
+                cardLink.className = 'card-link';
+                cardLink.href = card.link;
+                
+                cardLink.innerHTML = `
+                    <div class="history-card">
+                        <div class="card-front">
+                            <i class="${card.icon}"></i>
+                            <h3 class="card-title">${card.title}</h3>
+                        </div>
+                        <div class="card-back">
+                            <h3>${card.title}</h3>
+                            <p>${card.description}</p>
+                        </div>
+                    </div>
+                `;
+                
+                cardsContainer.appendChild(cardLink);
+            });
+        }
+        
+        // 处理滚动事件，实现时间轴渐显效果
+        function handleScroll() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const timelineSection = document.querySelector('.timeline-section');
+            
+            // 获取时间轴区域的位置和高度
+            const sectionTop = timelineSection.offsetTop;
+            const sectionHeight = timelineSection.offsetHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const windowHeight = window.innerHeight;
+            
+            // 检查是否滚动到时间轴区域
+            if (scrollTop + windowHeight * 0.8 > sectionTop && scrollTop < sectionTop + sectionHeight) {
+                // 为每个时间轴点添加延迟显示效果
+                timelineItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.add('visible');
+                    }, index * 200); // 每个点延迟200ms显示
+                });
+            }
+            
+            // 移除滚动事件监听器，避免重复触发
+            if (document.querySelectorAll('.timeline-item.visible').length === timelineItems.length) {
+                window.removeEventListener('scroll', handleScroll);
+            }
+        }
+    </script>
+</body>
+</html>
