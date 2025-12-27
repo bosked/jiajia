@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文化传播史 - 从宫廷到全球</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Serif SC', serif;
+            color: #333;
+            background-color: #f5f1e8;
+            overflow-x: hidden;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(26, 15, 12, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            color: #e6d2a9;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: #e6d2a9;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #daa520;
+        }
+        
+        .back-to-main {
+            background-color: #daa520;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        /* 封面页样式 */
+        .cover-section {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a0f0c;
+        }
+        
+        .culture-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('image/4.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+            filter: sepia(0.3);
+        }
+        
+        .cover-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: #fff;
+            padding: 2rem;
+            max-width: 1000px;
+        }
+        
+        .cover-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+            color: #e6d2a9;
+        }
+        
+        .cover-subtitle {
+            font-size: 1.8rem;
+            line-height: 1.8;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+            color: #fff;
+            margin-bottom: 2rem;
+        }
+        
+        .cover-intro {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            background-color: rgba(138, 37, 28, 0.7);
+            padding: 1.5rem;
+            border-radius: 8px;
+            max-width: 900px;
+            margin: 0 auto;
+            border-left: 5px solid #daa520;
+            text-align: left;
+        }
+        
+        .cover-intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .cover-intro p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: #fff;
+            text-align: center;
+            animation: bounce 2s infinite;
+        }
+        
+        .scroll-indicator i {
+            font-size: 1.8rem;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+        
+        /* 文化传播时间轴区域 */
+        .timeline-section {
+            min-height: 100vh;
+            background-color: #2d1c16;
+            padding: 5rem 2rem;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            color: #e6d2a9;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background-color: #b8860b;
+        }
+        
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        /* 时间轴竖线 */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background-color: #daa520;
+            transform: translateX(-50%);
+            z-index: 1;
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.5);
+        }
+        
+        .timeline-items {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .timeline-item {
+            width: 50%;
+            padding: 1.5rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 3rem;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            padding-left: 3rem;
+        }
+        
+        .timeline-year {
+            font-size: 2rem;
+            color: #daa520;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        
+        .timeline-content {
+            background-color: rgba(138, 37, 28, 0.8);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 2px solid #daa520;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            color: #e6d2a9;
+        }
+        
+        .timeline-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #e6d2a9;
+            border-bottom: 2px solid #daa520;
+            padding-bottom: 0.5rem;
+        }
+        
+        .timeline-desc {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-year {
+            text-align: right;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            content: "";
+            position: absolute;
+            right: -10px;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            background-color: #daa520;
+            border-radius: 50%;
+            border: 4px solid #8a251c;
+            z-index: 3;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            content: "";
+            position: absolute;
+            left: -10px;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            background-color: #daa520;
+            border-radius: 50%;
+            border: 4px solid #8a251c;
+            z-index: 3;
+        }
+        
+        /* 现代传播方式展示区域 */
+        .modern-section {
+            min-height: 100vh;
+            background-color: #f5f1e8;
+            padding: 5rem 2rem;
+        }
+        
+        .modern-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .modern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .modern-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border-top: 5px solid #8a251c;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modern-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-header {
+            padding: 2rem;
+            background-color: #8a251c;
+            color: #e6d2a9;
+            text-align: center;
+            position: relative;
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #daa520;
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .card-body {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-desc {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #333;
+            flex-grow: 1;
+        }
+        
+        .card-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            color: #8a251c;
+            font-weight: 700;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        /* 数据展示区域 */
+        .data-section {
+            min-height: 100vh;
+            background-color: #2d1c16;
+            padding: 5rem 2rem;
+        }
+        
+        .charts-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .chart-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .chart-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: rgba(26, 15, 12, 0.8);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 2px solid #8a251c;
+        }
+        
+        .chart-title {
+            text-align: center;
+            color: #e6d2a9;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #daa520;
+            padding-bottom: 0.5rem;
+        }
+        
+        .chart-wrapper {
+            width: 100%;
+            height: 300px;
+            position: relative;
+        }
+        
+        /* 全球影响力展示 */
+        .global-section {
+            min-height: 100vh;
+            background-color: #f5f1e8;
+            padding: 5rem 2rem;
+        }
+        
+        .global-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .global-map {
+            width: 100%;
+            height: 600px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            margin-top: 3rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #1a0f0c;
+            color: #e6d2a9;
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .footer-logo {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #daa520;
+        }
+        
+        .footer-nav {
+            margin: 1.5rem 0;
+        }
+        
+        .footer-nav a {
+            color: #e6d2a9;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        
+        .footer-nav a:hover {
+            color: #daa520;
+            text-decoration: underline;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1100px) {
+            .cover-title {
+                font-size: 2.8rem;
+            }
+            
+            .timeline-line {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 60px;
+                padding-right: 1.5rem;
+            }
+            
+            .timeline-item:nth-child(odd)::after,
+            .timeline-item:nth-child(even)::after {
+                left: 20px;
+                right: auto;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-year {
+                text-align: left;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem;
+            }
+            
+            .cover-title {
+                font-size: 2.2rem;
+            }
+            
+            .cover-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .cover-intro {
+                font-size: 1.1rem;
+                padding: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .modern-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-row {
+                flex-direction: column;
+            }
+            
+            .global-map {
+                height: 500px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cover-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .timeline-year {
+                font-size: 1.5rem;
+            }
+            
+            .timeline-title {
+                font-size: 1.3rem;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .global-map {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-landmark"></i>
+            <span>故宫博物院</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="space-open-history.html" class="active">空间开放史</a></li>
+            <li><a href="palace-protection-history.html">文物生命史</a></li>
+            <li><a href="guardian-history.html">故宫守护史</a></li>
+            <li><a href="culture-communication-history.html">文化传播史</a></li>
+            <li><a href="index.html" class="back-to-main">返回首页</a></li>
+        </ul>
+    </nav>
+    
+    <!-- 封面页 -->
+    <section class="cover-section">
+        <div class="culture-bg"></div>
+        <div class="cover-content">
+            <h1 class="cover-title">文化传播史</h1>
+            <p class="cover-subtitle">从宫廷到全球</p>
+            <div class="cover-intro">
+                <p>故宫，曾是象征着"禁忌的高墙"的皇家禁地；百年后，它已成为中国最具活力的公共文化平台。主打年轻化的文创、爆款短视频、开放课堂、云展览——故宫的知识正以前所未有的方式被传播、被消费、被再创造。</p>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+            <p>探索传播历程</p>
+        </div>
+    </section>
+    
+    <!-- 文化传播时间轴区域 -->
+    <section class="timeline-section">
+        <h2 class="section-title">故宫文化传播历程</h2>
+        
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            
+            <div class="timeline-items">
+                <!-- 时间轴项将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- 现代传播方式展示区域 -->
+    <section class="modern-section">
+        <h2 class="section-title" style="color: #8a251c;">故宫现代传播创新</h2>
+        
+        <div class="modern-container">
+            <div class="modern-grid">
+                <!-- 现代传播卡片将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- 数据展示区域 -->
+    <section class="data-section">
+        <h2 class="section-title">故宫文化传播数据</h2>
+        
+        <div class="charts-container">
+            <div class="chart-row">
+                <div class="chart-card">
+                    <h3 class="chart-title">故宫文创销售额增长</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">社交媒体关注度趋势</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="socialChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-row">
+                <div class="chart-card">
+                    <h3 class="chart-title">故宫年游客量变化（2008-2024）</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="visitorsChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">2019年游客画像分析</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="userProfileChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 全球影响力展示 -->
+    <section class="global-section">
+        <h2 class="section-title" style="color: #8a251c;">故宫全球影响力</h2>
+        
+        <div class="global-container">
+            <!-- 更新后的Flourish交互地图 -->
+            <div class="global-map">
+                <div class="flourish-embed flourish-map" data-src="visualisation/26991532"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/26991532/thumbnail" width="100%" alt="map visualization" /></noscript></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-logo">
+            <i class="fas fa-landmark"></i>
+        </div>
+        <p>故宫博物院 | 成立于1925年 | 世界文化遗产</p>
+        <div class="footer-nav">
+            <a href="index.html">首页</a>
+            <a href="space-open-history.html">空间开放史</a>
+            <a href="cultural-relic-history.html">文物生命史</a>
+            <a href="guardian-history.html">故宫守护史</a>
+            <a href="#">文化传播史</a>
+        </div>
+        <p>© 2025 故宫博物院百年纪念 | JIAJIA工作室</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 时间轴数据
+            const timelineData = [
+                {
+                    year: "1925",
+                    title: "故宫博物院成立",
+                    description: "故宫博物院正式成立，紫禁城首次向公众开放，开启了从皇家禁地到公共博物馆的转变。"
+                },
+                {
+                    year: "1930",
+                    title: "首次文物出国展览",
+                    description: "故宫文物首次赴英国伦敦参加'中国艺术国际展览会'，开启了故宫文化的国际传播。"
+                },
+                {
+                    year: "1950",
+                    title: "故宫出版物创刊",
+                    description: "《故宫博物院院刊》创刊，成为故宫学术研究成果发布的重要平台。"
+                },
+                {
+                    year: "1979",
+                    title: "故宫文物赴美展览",
+                    description: "'中华人民共和国出土文物展'在美国展出，故宫文物成为中美文化交流的桥梁。"
+                },
+                {
+                    year: "1997",
+                    title: "故宫官方网站上线",
+                    description: "故宫博物院官方网站正式上线，开启了故宫数字传播的新时代。"
+                },
+                {
+                    year: "2008",
+                    title: "故宫文创产品开发",
+                    description: "故宫开始系统化开发文创产品，将传统文化与现代设计相结合。"
+                },
+                {
+                    year: "2013",
+                    title: "故宫微博、微信开通",
+                    description: "故宫博物院开通官方微博和微信公众号，利用新媒体扩大文化传播范围。"
+                },
+                {
+                    year: "2016",
+                    title: "故宫文创成为现象级IP",
+                    description: "故宫文创产品年销售额突破10亿元，成为文化创意产业的标杆。"
+                },
+                {
+                    year: "2018",
+                    title: "《我在故宫修文物》热播",
+                    description: "纪录片《我在故宫修文物》引发全民关注，展现了文物修复背后的故事。"
+                },
+                {
+                    year: "2020",
+                    title: "云游故宫项目启动",
+                    description: "疫情期间推出'云游故宫'项目，通过VR技术让观众在线参观故宫。"
+                },
+                {
+                    year: "2022",
+                    title: "故宫数字文物库上线",
+                    description: "故宫数字文物库正式上线，超过10万件文物高清影像向公众开放。"
+                },
+                {
+                    year: "2025",
+                    title: "故宫百年全球庆典",
+                    description: "故宫博物院成立100周年，举办全球性庆典活动，展示百年文化传播成果。"
+                }
+            ];
+            
+            // 初始化时间轴
+            initTimeline();
+            
+            // 现代传播方式数据
+            const modernData = [
+                {
+                    icon: "fas fa-shopping-bag",
+                    title: "文创产品",
+                    description: "故宫文创将传统文化元素与现代设计结合，开发了超过12000种文创产品，年销售额突破15亿元，让故宫文化走进千家万户。",
+                    stats: [
+                        { number: "12000+", label: "文创产品种类" },
+                        { number: "15亿", label: "年销售额" }
+                    ]
+                },
+                {
+                    icon: "fas fa-video",
+                    title: "短视频与直播",
+                    description: "故宫在抖音、B站等平台开设官方账号，制作趣味短视频和直播活动，吸引了数千万年轻粉丝，让传统文化焕发新生机。",
+                    stats: [
+                        { number: "5000万+", label: "短视频粉丝" },
+                        { number: "100亿+", label: "视频播放量" }
+                    ]
+                },
+                {
+                    icon: "fas fa-graduation-cap",
+                    title: "开放课堂",
+                    description: "故宫推出系列公开课、讲座和工作坊，线上线下结合，面向不同年龄层次的观众普及传统文化知识。",
+                    stats: [
+                        { number: "2000+", label: "举办活动场次" },
+                        { number: "500万+", label: "参与人次" }
+                    ]
+                },
+                {
+                    icon: "fas fa-cloud",
+                    title: "云展览",
+                    description: "故宫推出线上虚拟展览，利用VR/AR技术让观众足不出户即可沉浸式体验故宫展览，打破了时空限制。",
+                    stats: [
+                        { number: "100+", label: "线上展览" },
+                        { number: "2亿+", label: "访问人次" }
+                    ]
+                },
+                {
+                    icon: "fas fa-globe",
+                    title: "国际交流",
+                    description: "故宫文物赴全球40多个国家和地区展出，举办国际学术研讨会，推动中华文化走向世界。",
+                    stats: [
+                        { number: "40+", label: "国家地区" },
+                        { number: "200+", label: "国际展览" }
+                    ]
+                },
+                {
+                    icon: "fas fa-mobile-alt",
+                    title: "数字应用",
+                    description: "开发'每日故宫'、'故宫展览'等APP，利用数字技术让文物活起来，提供个性化文化体验。",
+                    stats: [
+                        { number: "10+", label: "数字应用" },
+                        { number: "3000万+", label: "用户下载量" }
+                    ]
+                }
+            ];
+            
+            // 初始化现代传播展示
+            initModernCards();
+            
+            // 初始化图表
+            initCharts();
+            
+            // 初始化时间轴
+            function initTimeline() {
+                const timelineItems = document.querySelector('.timeline-items');
+                
+                timelineData.forEach((item, index) => {
+                    const timelineItem = document.createElement('div');
+                    timelineItem.className = 'timeline-item';
+                    timelineItem.innerHTML = `
+                        <div class="timeline-year">${item.year}</div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">${item.title}</h3>
+                            <p class="timeline-desc">${item.description}</p>
+                        </div>
+                    `;
+                    
+                    timelineItems.appendChild(timelineItem);
+                });
+                
+                // 监听滚动事件，实现时间轴渐显效果
+                window.addEventListener('scroll', handleTimelineScroll);
+                
+                // 初始检查一次滚动位置
+                handleTimelineScroll();
+            }
+            
+            // 处理时间轴滚动事件
+            function handleTimelineScroll() {
+                const timelineItems = document.querySelectorAll('.timeline-item');
+                const timelineSection = document.querySelector('.timeline-section');
+                
+                const sectionTop = timelineSection.offsetTop;
+                const sectionHeight = timelineSection.offsetHeight;
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const windowHeight = window.innerHeight;
+                
+                // 检查是否滚动到时间轴区域
+                if (scrollTop + windowHeight * 0.8 > sectionTop && scrollTop < sectionTop + sectionHeight) {
+                    timelineItems.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, index * 200);
+                    });
+                    
+                    // 移除滚动事件监听器，避免重复触发
+                    window.removeEventListener('scroll', handleTimelineScroll);
+                }
+            }
+            
+            // 初始化现代传播卡片
+            function initModernCards() {
+                const modernGrid = document.querySelector('.modern-grid');
+                
+                modernData.forEach(item => {
+                    const modernCard = document.createElement('div');
+                    modernCard.className = 'modern-card';
+                    
+                    let statsHTML = '';
+                    if (item.stats && item.stats.length > 0) {
+                        statsHTML = `
+                            <div class="card-stats">
+                                ${item.stats.map(stat => `
+                                    <div class="stat-item">
+                                        <div class="stat-number">${stat.number}</div>
+                                        <div class="stat-label">${stat.label}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                    }
+                    
+                    modernCard.innerHTML = `
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="${item.icon}"></i>
+                            </div>
+                            <h3 class="card-title">${item.title}</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-desc">${item.description}</p>
+                            ${statsHTML}
+                        </div>
+                    `;
+                    
+                    modernGrid.appendChild(modernCard);
+                });
+            }
+            
+            // 初始化图表
+            function initCharts() {
+                // 销售额增长图表
+                const salesCtx = document.getElementById('salesChart').getContext('2d');
+                new Chart(salesCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+                        datasets: [{
+                            label: '文创销售额（亿元）',
+                            data: [7, 10, 15, 17, 15, 12, 18, 22, 25, 28],
+                            borderColor: '#daa520',
+                            backgroundColor: 'rgba(218, 165, 32, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(26, 15, 12, 0.9)',
+                                titleColor: '#daa520',
+                                bodyColor: '#e6d2a9',
+                                borderColor: '#8a251c',
+                                borderWidth: 1
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: '年份',
+                                    color: '#e6d2a9',
+                                    font: {
+                                        size: 14,
+                                        family: "'Noto Serif SC', serif"
+                                    }
+                                },
+                                ticks: {
+                                    color: '#e6d2a9'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: '销售额（亿元）',
+                                    color: '#e6d2a9',
+                                    font: {
+                                        size: 14,
+                                        family: "'Noto Serif SC', serif"
+                                    }
+                                },
+                                min: 0,
+                                max: 30,
+                                ticks: {
+                                    color: '#e6d2a9'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // 社交媒体关注度图表
+                const socialCtx = document.getElementById('socialChart').getContext('2d');
+                new Chart(socialCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['微博', '微信', '抖音', 'B站', '小红书', 'YouTube'],
+                        datasets: [{
+                            label: '粉丝数量（百万）',
+                            data: [12.5, 8.2, 25.3, 4.7, 3.8, 1.2],
+                            backgroundColor: [
+                                '#8a251c',
+                                '#b8860b',
+                                '#2d1c16',
+                                '#1e6bb8',
+                                '#ff6b6b',
+                                '#ff0000'
+                            ],
+                            borderWidth: 2,
+                            borderColor: '#f5f1e8'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(26, 15, 12, 0.9)',
+                                titleColor: '#daa520',
+                                bodyColor: '#e6d2a9',
+                                borderColor: '#8a251c',
+                                borderWidth: 1,
+                                callbacks: {
+                                    label: function(context) {
+                                        return `粉丝数量: ${context.raw} 百万`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: '社交媒体平台',
+                                    color: '#e6d2a9',
+                                    font: {
+                                        size: 14,
+                                        family: "'Noto Serif SC', serif"
+                                    }
+                                },
+                                ticks: {
+                                    color: '#e6d2a9'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: '粉丝数量（百万）',
+                                    color: '#e6d2a9',
+                                    font: {
+                                        size: 14,
+                                        family: "'Noto Serif SC', serif"
+                                    }
+                                },
+                                min: 0,
+                                max: 30,
+                                ticks: {
+                                    color: '#e6d2a9'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // 游客数据图表
+                const visitorsCtx = document.getElementById('visitorsChart').getContext('2d');
+                new Chart(visitorsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+                        datasets: [{
+                            label: '游客数量（万人次）',
+                            data: [949, 1182, 1283, 1411, 1535, 1456, 1525, 1506, 1601.854, 1669.9538, 1700, 1933.6275, 395, 587.409, 542, 1456, 1762],
+                            borderColor: '#8a251c',
+                            backgroundColor: 'rgba(138, 37, 28, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.3,
+                            pointBackgroundColor: '#daa520',
+                            pointBorderColor: '#8a251c',
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(26, 15, 12, 0.9)',
+                                titleColor: '#daa520',
+                                bodyColor: '#e6d2a9',
+                                borderColor: '#8a251c',
+                                borderWidth: 1,
+                                callbacks: {
+                                    label: function(context) {
+                                        return `游客数量: ${context.raw.toLocaleString()} 万人次`;
+                                    }
+                                }
+                            },
+                            annotation: {
+                                annotations: {
+                                    line1: {
+                                        type: 'line',
+                                        xMin: '2020',
+                                        xMax: '2020',
+                                        borderColor: '#ff6b6b',
+                                        borderWidth: 2,
+                                        borderDash: [5, 5],
+                                        label: {
+                                            content: '疫情',
+                                            enabled: true,
+                                            position: 'end',
+                                            backgroundColor: 'rgba(255, 107, 107, 0.8)',
+                                            color: '#fff',
+                                            font: {
+                                                size: 12,
+                                                family: "'Noto Serif SC', serif"
+                                            }
+                                        }
+                                    },
+                                    line2: {
+                                        type: 'line',
+                                        yMin: 1933.6275,
+                                        yMax: 1933.6275,
+                                        xMin: '2019',
+                                        xMax: '2024',
+                                        borderColor: '#daa520',
+                                        borderWidth: 1,
+                                        borderDash: [3, 3],
+                                        label: {
+                                            content: '2019年峰值',
+                                            enabled: true,
+                                            position: 'start',
+                                            backgroundColor: 'rgba(218, 165, 32, 0.8)',
+                                            color: '#333',
+                                            font: {
+                                                size: 11,
+                                                family: "'Noto Serif SC', serif"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: '年份',
+                                    color: '#e6d2a9',
+                                    font: {
+                                        size: 14,
+                                        family: "'Noto Serif SC', serif"
+                                    }
+                                },
+                                ticks: {
+                                    color: '#e6d2a9'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: '游客数量（万人次）',
+                                    color: '#e6d2a9',
+                                    font: {
+                                        size: 14,
+                                        family: "'Noto Serif SC', serif"
+                                    }
+                                },
+                                min: 0,
+                                max: 2000,
+                                ticks: {
+                                    color: '#e6d2a9',
+                                    callback: function(value) {
+                                        return value.toLocaleString();
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // 用户画像图表
+                const userProfileCtx = document.getElementById('userProfileChart').getContext('2d');
+                new Chart(userProfileCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['20岁以下 (13.7%)', '20-30岁 (18.2%)', '30-40岁 (19.2%)', '40岁以上 (48.9%)'],
+                        datasets: [{
+                            data: [265, 352, 372, 944.6275],
+                            backgroundColor: [
+                                '#8a251c',
+                                '#b8860b',
+                                '#2d1c16',
+                                '#daa520'
+                            ],
+                            borderColor: '#f5f1e8',
+                            borderWidth: 2,
+                            hoverOffset: 15
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    color: '#e6d2a9',
+                                    padding: 20,
+                                    font: {
+                                        size: 12,
+                                        family: "'Noto Serif SC', serif"
+                                    },
+                                    usePointStyle: true,
+                                    pointStyle: 'circle'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(26, 15, 12, 0.9)',
+                                titleColor: '#daa520',
+                                bodyColor: '#e6d2a9',
+                                borderColor: '#8a251c',
+                                borderWidth: 1,
+                                callbacks: {
+                                    label: function(context) {
+                                        const value = context.raw;
+                                        const total = 1933.6275;
+                                        const percentage = ((value / total) * 100).toFixed(1);
+                                        return `${context.label.split(' (')[0]}: ${value.toLocaleString()} 万人次 (${percentage}%)`;
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: '年龄分布 (总观众: 1933.6万人次)',
+                                color: '#e6d2a9',
+                                font: {
+                                    size: 14,
+                                    family: "'Noto Serif SC', serif"
+                                },
+                                padding: {
+                                    top: 10,
+                                    bottom: 20
+                                }
+                            }
+                        },
+                        cutout: '60%',
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

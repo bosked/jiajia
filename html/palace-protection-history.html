@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文物生命史 - 文物的保护与重生</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Serif SC', serif;
+            color: #333;
+            background-color: #f5f1e8;
+            overflow-x: hidden;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(138, 37, 28, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            color: #e6d2a9;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: #e6d2a9;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #daa520;
+        }
+        
+        .back-to-main {
+            background-color: #daa520;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        /* 封面页样式 */
+        .cover-section {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a0f0c;
+        }
+        
+        .relic-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('image/7.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.4;
+        }
+        
+        .cover-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: #fff;
+            padding: 2rem;
+            max-width: 900px;
+        }
+        
+        .cover-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+            color: #e6d2a9;
+        }
+        
+        .cover-subtitle {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+            color: #fff;
+        }
+        
+        .cover-intro {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(26, 15, 12, 0.7);
+            border-radius: 8px;
+            border-left: 5px solid #daa520;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: #fff;
+            text-align: center;
+            animation: bounce 2s infinite;
+        }
+        
+        .scroll-indicator i {
+            font-size: 1.8rem;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+        
+        /* 迁移地图区域 - 融合版 */
+        .migration-section {
+            min-height: 100vh;
+            background-color: #2d1c16;
+            padding: 5rem 2rem;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            color: #e6d2a9;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background-color: #b8860b;
+        }
+        
+        .migration-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: rgba(26, 15, 12, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #8a251c;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .map-wrapper {
+            flex: 1;
+            height: 600px;
+            min-width: 0;
+            position: relative;
+            background-color: #1a0f0c;
+        }
+        
+        #migration-chart {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .map-controls {
+            width: 350px;
+            background-color: rgba(45, 28, 22, 0.9);
+            padding: 1.5rem;
+            overflow-y: auto;
+            border-left: 2px solid #8a251c;
+        }
+        
+        .control-title {
+            color: #daa520;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .phase-controls {
+            margin-bottom: 2rem;
+        }
+        
+        .phase-controls h3 {
+            color: #e6d2a9;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #8a251c;
+            padding-bottom: 0.5rem;
+        }
+        
+        .phase-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .phase-btn {
+            background-color: rgba(138, 37, 28, 0.5);
+            color: #e6d2a9;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+        }
+        
+        .phase-btn:hover {
+            background-color: rgba(138, 37, 28, 0.8);
+            color: #daa520;
+        }
+        
+        .phase-btn.active {
+            background-color: #8a251c;
+            color: #daa520;
+            box-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
+        }
+        
+        .transport-toggle {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .transport-toggle label {
+            color: #e6d2a9;
+            font-size: 1rem;
+        }
+        
+        .timeline-slider-container {
+            margin-top: 2rem;
+        }
+        
+        .timeline-slider {
+            width: 100%;
+            height: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(to right, #8a251c, #daa520, #8a251c);
+            outline: none;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #e6d2a9;
+            cursor: pointer;
+            border: 3px solid #daa520;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            color: #e6d2a9;
+            font-size: 0.9rem;
+        }
+        
+        .route-info {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: rgba(26, 15, 12, 0.7);
+            border-radius: 8px;
+            border-left: 5px solid #daa520;
+        }
+        
+        .route-info h3 {
+            color: #daa520;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .route-info p {
+            color: #e6d2a9;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .route-info strong {
+            color: #fff;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #8a251c;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            color: #e6d2a9;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            border-radius: 4px;
+        }
+        
+        /* 图表区域 */
+        .charts-section {
+            min-height: 100vh;
+            background-color: #f5f1e8;
+            padding: 5rem 2rem;
+        }
+        
+        .charts-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .chart-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .chart-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border: 2px solid #8a251c;
+        }
+        
+        .chart-title {
+            text-align: center;
+            color: #8a251c;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #daa520;
+            padding-bottom: 0.5rem;
+        }
+        
+        .chart-wrapper {
+            width: 100%;
+            height: 300px;
+            position: relative;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .stat-card {
+            background-color: #fff;
+            padding: 4rem;
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #8a251c;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            color: #8a251c;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+            color: #333;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #1a0f0c;
+            color: #e6d2a9;
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .footer-logo {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #daa520;
+        }
+        
+        .footer-nav {
+            margin: 1.5rem 0;
+        }
+        
+        .footer-nav a {
+            color: #e6d2a9;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        
+        .footer-nav a:hover {
+            color: #daa520;
+            text-decoration: underline;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .migration-container {
+                flex-direction: column;
+            }
+            
+            .map-wrapper {
+                height: 500px;
+            }
+            
+            .map-controls {
+                width: 100%;
+                border-left: none;
+                border-top: 2px solid #8a251c;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem;
+            }
+            
+            .cover-title {
+                font-size: 2.5rem;
+            }
+            
+            .cover-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .cover-intro {
+                font-size: 1.1rem;
+                padding: 1rem;
+            }
+            
+            .map-wrapper {
+                height: 400px;
+            }
+            
+            .chart-row {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cover-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .map-wrapper {
+                height: 350px;
+            }
+            
+            .chart-card {
+                padding: 1rem;
+            }
+            
+            .chart-wrapper {
+                height: 250px;
+            }
+        }
+        /* 文物修复过程样式 */
+.repair-process-section {
+    min-height: 100vh;
+    background-color: #f8f4e9;
+    padding: 5rem 2rem;
+}
+
+.process-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.process-timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.process-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, #8a251c, #daa520);
+    border-radius: 2px;
+}
+
+.process-step {
+    position: relative;
+    margin-bottom: 3rem;
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(138, 37, 28, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.process-step:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(138, 37, 28, 0.15);
+}
+
+.process-step::before {
+    content: '';
+    position: absolute;
+    left: -37px;
+    top: 40px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #8a251c;
+    border: 4px solid #fff;
+    box-shadow: 0 0 0 2px #8a251c;
+    z-index: 10;
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.step-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #8a251c;
+    margin-right: 1rem;
+    background-color: rgba(138, 37, 28, 0.1);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.step-title {
+    font-size: 1.8rem;
+    color: #333;
+    margin: 0;
+    font-weight: 600;
+}
+
+.step-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.step-description p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.step-details {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 1rem;
+}
+
+.step-details li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.step-details li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #daa520;
+    font-size: 1.2rem;
+}
+
+.step-image {
+    height: 250px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.step-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.step-image:hover img {
+    transform: scale(1.05);
+}
+
+/* 文物修复过程样式 */
+.repair-process-section {
+    min-height: 100vh;
+    background-color: #f8f4e9;
+    padding: 5rem 2rem;
+}
+
+.process-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.process-intro {
+    background-color: rgba(138, 37, 28, 0.05);
+    border-left: 4px solid #8a251c;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.process-intro p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+}
+
+.process-timeline {
+    position: relative;
+    padding-left: 50px;
+}
+
+.process-timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #8a251c, #daa520, #8a251c);
+    border-radius: 1px;
+}
+
+.process-step {
+    position: relative;
+    margin-bottom: 2.5rem;
+    background-color: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(138, 37, 28, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.process-step:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(138, 37, 28, 0.1);
+}
+
+.process-step::before {
+    content: '';
+    position: absolute;
+    left: -55px;
+    top: 35px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: white;
+    border: 4px solid #8a251c;
+    box-shadow: 0 0 0 3px rgba(138, 37, 28, 0.1);
+    z-index: 10;
+}
+
+.step-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.step-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #8a251c;
+    margin-right: 1.2rem;
+    background-color: rgba(138, 37, 28, 0.08);
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.step-title-content {
+    flex: 1;
+}
+
+.step-title {
+    font-size: 1.8rem;
+    color: #333;
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+}
+
+.step-subtitle {
+    font-size: 1rem;
+    color: #8a251c;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.step-content {
+    padding-left: 1rem;
+}
+
+.step-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+.step-main-desc {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 1.2rem;
+    line-height: 1.7;
+}
+
+.step-secondary-desc {
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 1rem;
+    line-height: 1.6;
+    padding-left: 1rem;
+    border-left: 3px solid rgba(218, 165, 32, 0.3);
+}
+
+.step-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    background-color: rgba(245, 241, 232, 0.5);
+    border-radius: 8px;
+    border-left: 3px solid #daa520;
+    transition: background-color 0.3s ease;
+}
+
+.detail-item:hover {
+    background-color: rgba(245, 241, 232, 0.9);
+}
+
+.detail-icon {
+    font-size: 1.3rem;
+    margin-right: 0.8rem;
+    width: 30px;
+    text-align: center;
+}
+
+.process-summary {
+    margin-top: 4rem;
+    padding: 2rem;
+    background-color: rgba(26, 15, 12, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(138, 37, 28, 0.1);
+}
+
+.summary-box {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.summary-title {
+    font-size: 1.5rem;
+    color: #8a251c;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-bottom: 2px solid rgba(138, 37, 28, 0.2);
+    padding-bottom: 0.8rem;
+}
+
+.summary-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.summary-list li {
+    position: relative;
+    padding-left: 2.5rem;
+    margin-bottom: 1.2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+.summary-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    background-color: #8a251c;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .repair-process-section {
+        padding: 3rem 1rem;
+    }
+    
+    .process-timeline {
+        padding-left: 40px;
+    }
+    
+    .process-step::before {
+        left: -48px;
+    }
+    
+    .step-number {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8rem;
+        margin-right: 1rem;
+    }
+    
+    .step-title {
+        font-size: 1.5rem;
+    }
+    
+    .step-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .step-main-desc {
+        font-size: 1.1rem;
+    }
+    
+    .detail-item {
+        padding: 0.6rem 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .process-timeline {
+        padding-left: 30px;
+    }
+    
+    .process-step::before {
+        left: -38px;
+        width: 20px;
+        height: 20px;
+        border-width: 3px;
+    }
+    
+    .process-step {
+        padding: 1.5rem;
+    }
+    
+    .step-number {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .step-title {
+        font-size: 1.3rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-landmark"></i>
+            <span>故宫博物院</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="space-open-history.html">空间开放史</a></li>
+            <li><a href="palace-protection-history.html" class="active">文物生命史</a></li>
+            <li><a href="guardian-history.html">故宫守护史</a></li>
+            <li><a href="culture-communication-history.html">文化传播史</a></li>
+            <li><a href="index.html" class="back-to-main">返回首页</a></li>
+        </ul>
+    </nav>
+    
+    <!-- 封面页 -->
+    <section class="cover-section">
+        <div class="relic-bg"></div>
+        <div class="cover-content">
+            <h1 class="cover-title">文物生命史</h1>
+            <p class="cover-subtitle">文物的保护与重生</p>
+            <div class="cover-intro">
+                <p>战争中，文物长途迁往西南，跨越 6000 公里，为了避难。新中国成立后，大规模修复、清点、编目，让文物重新"回归生命"。进入 21 世纪，文物从库房走向云端，成为人人可触及的数字文化资源。</p>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+            <p>探索文物旅程</p>
+        </div>
+    </section>
+    
+    <!-- 迁移地图区域 -->
+    <section class="migration-section">
+        <h2 class="section-title">故宫文物迁移路线图</h2>
+        
+        <div class="migration-container">
+            <div class="map-wrapper">
+                <div id="migration-chart"></div>
+            </div>
+            <div class="map-controls">
+                <h2 class="control-title">文物迁移控制面板</h2>
+                
+                <div class="phase-controls">
+                    <h3>迁移阶段选择</h3>
+                    <div class="phase-buttons" id="phaseButtons">
+                        <!-- 阶段按钮将通过JavaScript动态生成 -->
+                    </div>
+                    <div class="transport-toggle">
+                        <label for="allPhases">显示所有阶段</label>
+                        <input type="checkbox" id="allPhases" checked>
+                    </div>
+                </div>
+                
+                <div class="timeline-slider-container">
+                    <h3>时间轴控制</h3>
+                    <input type="range" min="1933" max="1958" value="1958" step="1" class="timeline-slider" id="timelineSlider">
+                    <div class="slider-labels">
+                        <span>1933</span>
+                        <span>1958</span>
+                    </div>
+                    <div id="currentYear" style="text-align: center; color: #daa520; font-size: 1.2rem; margin-top: 0.5rem;">1958年</div>
+                </div>
+                
+                <div class="route-info" id="routeInfo">
+                    <h3 id="routeTitle">启运南迁</h3>
+                    <p><strong>路线：</strong><span id="routePath">北平 → 上海 (铁路及水运)</span></p>
+                    <p><strong>时间：</strong><span id="routeTime">1933-1933</span></p>
+                    <p><strong>文物数量：</strong><span id="routeCount">总计 19,557箱</span></p>
+                    <p><strong>存放地：</strong><span id="routeStorage">上海法租界仓库</span></p>
+                    <p><strong>核心事件：</strong><span id="routeEvent">为避战火，故宫文物自北平紧急南运，分五批经铁路运抵上海。</span></p>
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #8a251c;"></div>
+                        <span>铁路运输</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #1e6bb8;"></div>
+                        <span>水路运输</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #2e7d32;"></div>
+                        <span>公路运输</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #E2C33D;"></div>
+                        <span>文物迁移点</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 图表区域 -->
+    <section class="charts-section">
+        <h2 class="section-title" style="color: #8a251c;">故宫文物数据统计</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">1,863,404</div>
+                    <div class="stat-label">藏品总量</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">153,415</div>
+                    <div class="stat-label">数字文物库</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">602,124</div>
+                    <div class="stat-label">古籍文献</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">377,440</div>
+                    <div class="stat-label">陶瓷藏品</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">159,728</div>
+                    <div class="stat-label">铜器藏品</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">181,709</div>
+                    <div class="stat-label">织绣藏品</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 文物修复过程展示（无图片版） -->
+<section class="repair-process-section">
+    <h2 class="section-title" style="color: #8a251c;">文物修复工艺流程</h2>
+    
+    <div class="process-container">
+        <div class="process-intro">
+            <p>故宫文物修复遵循"最小干预、可逆性、可识别"原则，严格按照传统工艺与现代科技相结合的方式进行。以下是典型木器文物修复的详细工艺流程：</p>
+        </div>
+        
+        <div class="process-timeline">
+            <!-- 步骤1: 去污除尘 -->
+            <div class="process-step">
+                <div class="step-header">
+                    <div class="step-number">01</div>
+                    <div class="step-title-content">
+                        <h3 class="step-title">去污除尘</h3>
+                        <div class="step-subtitle">清洁是修复的第一步</div>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        <p class="step-main-desc">为保证不让水分侵入而造成破坏，所以用气泵一点点地反复吹净。</p>
+                        <div class="step-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">🧹</span>
+                                <span>使用纯棉布初步清理灰尘</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">🪶</span>
+                                <span>用毛刷清理桌面底部灰尘</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 步骤2: 拆卸 -->
+            <div class="process-step">
+                <div class="step-header">
+                    <div class="step-number">02</div>
+                    <div class="step-title-content">
+                        <h3 class="step-title">拆卸</h3>
+                        <div class="step-subtitle">分解检查每个部件</div>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        <p class="step-main-desc">将文物拆解为各个部件，便于进行详细检查和修复。</p>
+                        <div class="step-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">🔧</span>
+                                <span>初步拆卸</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">🧩</span>
+                                <span>拆卸后的散件部分</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 步骤3: 修复修补 -->
+            <div class="process-step">
+                <div class="step-header">
+                    <div class="step-number">03</div>
+                    <div class="step-title-content">
+                        <h3 class="step-title">修复修补</h3>
+                        <div class="step-subtitle">精细修复与清理</div>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        <p class="step-main-desc">对文物进行精细修复，清除旧胶、污垢等，恢复其原有状态。</p>
+                        <div class="step-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">💧</span>
+                                <span>软化清理榫卯处的胶状物</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">🧽</span>
+                                <span>清除桌面漆类污垢</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">🧤</span>
+                                <span>使用蘸有液体的脱脂棉软化桌面漆物</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">🔨</span>
+                                <span>使用同材质的工具清除漆物</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">🎋</span>
+                                <span>使用竹制工具剔除死角异物</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">🖌️</span>
+                                <span>使用蘸有液体的棉布、鬓刷清除雕刻深处异物</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">🍲</span>
+                                <span>熬制鳔胶</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 步骤4: 组装 -->
+            <div class="process-step">
+                <div class="step-header">
+                    <div class="step-number">04</div>
+                    <div class="step-title-content">
+                        <h3 class="step-title">组装</h3>
+                        <div class="step-subtitle">传统技艺"攒活"</div>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        <p class="step-main-desc">组装，行业术语叫"攒活"，即把所有的部件正式组装起来，也有叫"使鳔"的。</p>
+                        <p class="step-secondary-desc">使用传统的鳔胶进行粘合，确保结构稳固且可逆。鳔胶由鱼鳔熬制而成，是传统木器修复中最理想的粘合剂。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 步骤5: 烫蜡 -->
+            <div class="process-step">
+                <div class="step-header">
+                    <div class="step-number">05</div>
+                    <div class="step-title-content">
+                        <h3 class="step-title">烫蜡</h3>
+                        <div class="step-subtitle">表面保护处理</div>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        <p class="step-main-desc">使用天然蜂蜡对文物表面进行保护处理，既能保护木材，又能呈现自然光泽。</p>
+                        <p class="step-secondary-desc">烫蜡工艺能够防止木材干裂，同时使文物表面形成一层保护膜，透气性好且易于后期维护。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 步骤6: 检验 -->
+            <div class="process-step">
+                <div class="step-header">
+                    <div class="step-number">06</div>
+                    <div class="step-title-content">
+                        <h3 class="step-title">检验</h3>
+                        <div class="step-subtitle">严格质量验收</div>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        <p class="step-main-desc">在整个修复工艺流程中，每道工序均需按照相应的质量技术标准进行检验，最终的成品还要经过故宫专家严格、全面的质量验收。</p>
+                        <p class="step-secondary-desc">确保修复工作符合"修旧如旧"的原则，既保护文物价值，又恢复其使用功能。验收标准包括结构稳定性、材料匹配性、工艺规范性等多个方面。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="process-summary">
+            <div class="summary-box">
+                <h4 class="summary-title">修复原则</h4>
+                <ul class="summary-list">
+                    <li><strong>最小干预原则：</strong>尽可能保留文物原貌，不做不必要的修复</li>
+                    <li><strong>可逆性原则：</strong>修复材料和工艺应具有可逆性，便于未来再次修复</li>
+                    <li><strong>可识别原则：</strong>修复部分应与原物有所区分，确保历史真实性</li>
+                    <li><strong>材料匹配原则：</strong>修复材料应与原文物材料相同或相似</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+    <!-- 页脚内容保持不变 -->
+</footer>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-logo">
+            <i class="fas fa-landmark"></i>
+        </div>
+        <p>故宫博物院 | 成立于1925年 | 世界文化遗产</p>
+        <div class="footer-nav">
+            <a href="home.html">首页</a>
+            <a href="space-open-history.html">空间开放史</a>
+            <a href="palace-protection-history.html">文物生命史</a>
+            <a href="guardian-history.html">故宫守护史</a>
+            <a href="culture-communication-history.html">文化传播史</a>
+        </div>
+        <p>© 2025 故宫博物院百年纪念 | JIAJIA工作室</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 迁移路线数据
+            const migrationData = [
+                {
+                    id: "south1",
+                    phase: "启运南迁",
+                    route: "北平 → 上海 (铁路及水运)",
+                    startCity: "北京",
+                    endCity: "上海",
+                    transport: "railway",
+                    color: "#8a251c",
+                    years: "1933-1933",
+                    count: "总计 19,557箱 (含故宫、古物陈列所等单位文物)。其中，故宫文物 13,427箱又64包。",
+                    storage: "上海法租界仓库",
+                    event: "为避战火，故宫文物自北平紧急南运，分五批经铁路运抵上海。",
+                    startYear: 1933,
+                    endYear: 1933
+                },
+                {
+                    id: "south2",
+                    phase: "转存南京",
+                    route: "上海 → 南京 (长江航运)",
+                    startCity: "上海",
+                    endCity: "南京",
+                    transport: "waterway",
+                    color: "#1e6bb8",
+                    years: "1936-1937",
+                    count: "同启运南迁的箱件（总19,557箱）。",
+                    storage: "南京朝天宫库房",
+                    event: "上海文物转运至南京新建成的朝天宫库房。",
+                    startYear: 1936,
+                    endYear: 1937
+                },
+                {
+                    id: "west1",
+                    phase: "抗战西迁 (南路)",
+                    route: "南京 → 长沙 (水运)",
+                    startCity: "南京",
+                    endCity: "长沙",
+                    transport: "waterway",
+                    color: "#1e6bb8",
+                    years: "1937-1939",
+                    count: "约80箱",
+                    storage: "四川巴县",
+                    event: "抗战爆发后，文物分三路西迁。南路经长沙、贵阳至安顺、四川巴县。",
+                    startYear: 1937,
+                    endYear: 1939
+                },
+                {
+                    id: "west2",
+                    phase: "抗战西迁 (南路)",
+                    route: "长沙 → 贵阳 (公路)",
+                    startCity: "长沙",
+                    endCity: "贵阳",
+                    transport: "highway",
+                    color: "#2e7d32",
+                    years: "1937-1939",
+                    count: "约80箱",
+                    storage: "四川巴县",
+                    event: "抗战爆发后，文物分三路西迁。南路经长沙、贵阳至安顺、四川巴县。",
+                    startYear: 1937,
+                    endYear: 1939
+                },
+                {
+                    id: "west3",
+                    phase: "抗战西迁 (南路)",
+                    route: "贵阳 → 安顺 → 四川巴县 (公路)",
+                    startCity: "贵阳",
+                    endCity: "重庆",
+                    transport: "highway",
+                    color: "#2e7d32",
+                    years: "1937-1939",
+                    count: "约80箱",
+                    storage: "四川巴县",
+                    event: "抗战爆发后，文物分三路西迁。南路经长沙、贵阳至安顺、四川巴县。",
+                    startYear: 1937,
+                    endYear: 1939
+                },
+                {
+                    id: "west4",
+                    phase: "抗战西迁 (中路)",
+                    route: "南京 → 汉口 (长江航运)",
+                    startCity: "南京",
+                    endCity: "武汉",
+                    transport: "waterway",
+                    color: "#1e6bb8",
+                    years: "1937-1939",
+                    count: "约9,331箱",
+                    storage: "四川乐山",
+                    event: "抗战爆发后，文物分三路西迁。中路经汉口、宜昌、重庆至乐山。",
+                    startYear: 1937,
+                    endYear: 1939
+                },
+                {
+                    id: "west5",
+                    phase: "抗战西迁 (中路)",
+                    route: "汉口 → 宜昌 → 重庆 (长江航运)",
+                    startCity: "武汉",
+                    endCity: "重庆",
+                    transport: "waterway",
+                    color: "#1e6bb8",
+                    years: "1937-1939",
+                    count: "约9,331箱",
+                    storage: "四川乐山",
+                    event: "抗战爆发后，文物分三路西迁。中路经汉口、宜昌、重庆至乐山。",
+                    startYear: 1937,
+                    endYear: 1939
+                },
+                {
+                    id: "west6",
+                    phase: "抗战西迁 (中路)",
+                    route: "重庆 → 乐山 (岷江水运)",
+                    startCity: "重庆",
+                    endCity: "乐山",
+                    transport: "waterway",
+                    color: "#1e6bb8",
+                    years: "1937-1939",
+                    count: "约9,331箱",
+                    storage: "四川乐山",
+                    event: "抗战爆发后，文物分三路西迁。中路经汉口、宜昌、重庆至乐山。",
+                    startYear: 1937,
+                    endYear: 1939
+                },
+                {
+                    id: "west7",
+                    phase: "抗战西迁 (北路)",
+                    route: "南京 → 徐州 (铁路)",
+                    startCity: "南京",
+                    endCity: "徐州",
+                    transport: "railway",
+                    color: "#8a251c",
+                    years: "1937-1939",
+                    count: "约7,287箱",
+                    storage: "四川峨眉",
+                    event: "抗战爆发后，文物分三路西迁。北路经徐州、宝鸡、汉中至峨眉。",
+                    startYear: 1937,
+                    endYear: 1939
+                },
+                {
+                    id: "west8",
+                    phase: "抗战西迁 (北路)",
+                    route: "徐州 → 宝鸡 (铁路)",
+                    startCity: "徐州",
+                    endCity: "宝鸡",
+                    transport: "railway",
+                    color: "#8a251c",
+                    years: "1937-1939",
+                    count: "约7,287箱",
+                    storage: "四川峨眉",
+                    event: "抗战爆发后，文物分三路西迁。北路经徐州、宝鸡、汉中至峨眉。",
+                    startYear: 1937,
+                    endYear: 1939
+                },
+                {
+                    id: "west9",
+                    phase: "抗战西迁 (北路)",
+                    route: "宝鸡 → 汉中 → 成都 (卡车公路)",
+                    startCity: "宝鸡",
+                    endCity: "成都",
+                    transport: "highway",
+                    color: "#2e7d32",
+                    years: "1937-1939",
+                    count: "约7,287箱",
+                    storage: "四川峨眉",
+                    event: "抗战爆发后，文物分三路西迁。北路经徐州、宝鸡、汉中至峨眉。",
+                    startYear: 1937,
+                    endYear: 1939
+                },
+                {
+                    id: "west10",
+                    phase: "抗战西迁 (北路)",
+                    route: "成都 → 峨眉 (公路)",
+                    startCity: "成都",
+                    endCity: "峨眉",
+                    transport: "highway",
+                    color: "#2e7d32",
+                    years: "1937-1939",
+                    count: "约7,287箱",
+                    storage: "四川峨眉",
+                    event: "抗战爆发后，文物分三路西迁。北路经徐州、宝鸡、汉中至峨眉。",
+                    startYear: 1937,
+                    endYear: 1939
+                },
+                {
+                    id: "east1",
+                    phase: "战后东归",
+                    route: "各存放地 → 重庆 (集中)",
+                    startCity: "乐山",
+                    endCity: "重庆",
+                    transport: "highway",
+                    color: "#2e7d32",
+                    years: "1947-1947",
+                    count: "约16,600箱 (即成功西迁的全部箱件)",
+                    storage: "返回南京朝天宫库房",
+                    event: "抗战胜利后，三路西迁文物先集中于重庆，后全部运回南京。",
+                    startYear: 1947,
+                    endYear: 1947
+                },
+                {
+                    id: "east2",
+                    phase: "战后东归",
+                    route: "重庆 → 南京 (长江航运)",
+                    startCity: "重庆",
+                    endCity: "南京",
+                    transport: "waterway",
+                    color: "#1e6bb8",
+                    years: "1947-1947",
+                    count: "约16,600箱 (即成功西迁的全部箱件)",
+                    storage: "返回南京朝天宫库房",
+                    event: "抗战胜利后，三路西迁文物先集中于重庆，后全部运回南京。",
+                    startYear: 1947,
+                    endYear: 1947
+                },
+                {
+                    id: "taiwan",
+                    phase: "部分文物运台",
+                    route: "南京 → 台北 (海运)",
+                    startCity: "南京",
+                    endCity: "台北",
+                    transport: "waterway",
+                    color: "#1e6bb8",
+                    years: "1948-1949",
+                    count: "运台：2,972箱 (约占故宫南迁文物的22%)",
+                    storage: "台北",
+                    event: "部分文物分三批被运往台湾。",
+                    startYear: 1948,
+                    endYear: 1949
+                }
+            ];
+            
+            // 城市位置数据 - 经纬度
+            const geoCoordMap = {
+                '北京': [116.4, 39.9],
+                '上海': [121.47, 31.23],
+                '南京': [118.8, 32.06],
+                '长沙': [112.93, 28.23],
+                '贵阳': [106.63, 26.65],
+                '重庆': [106.55, 29.57],
+                '武汉': [114.31, 30.59],
+                '乐山': [103.77, 29.6],
+                '徐州': [117.2, 34.27],
+                '宝鸡': [107.24, 34.37],
+                '成都': [104.07, 30.67],
+                '峨眉': [103.48, 29.62],
+                '台北': [121.56, 25.03]
+            };
+            
+            // 初始化ECharts实例
+            const migrationChart = echarts.init(document.getElementById('migration-chart'));
+            
+            // 存储路线元素
+            const activePhases = new Set();
+            
+            // 生成阶段按钮
+            const phaseButtonsContainer = document.getElementById('phaseButtons');
+            const phases = [...new Set(migrationData.map(item => item.phase))];
+            
+            phases.forEach(phase => {
+                const button = document.createElement('button');
+                button.className = 'phase-btn';
+                button.textContent = phase;
+                button.dataset.phase = phase;
+                
+                button.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    
+                    if (this.classList.contains('active')) {
+                        activePhases.add(phase);
+                    } else {
+                        activePhases.delete(phase);
+                    }
+                    
+                    updateMigrationChart();
+                });
+                
+                phaseButtonsContainer.appendChild(button);
+            });
+            
+            // 添加"全选"按钮
+            const allButton = document.createElement('button');
+            allButton.className = 'phase-btn active';
+            allButton.textContent = '全选';
+            allButton.addEventListener('click', function() {
+                const allPhasesCheckbox = document.getElementById('allPhases');
+                allPhasesCheckbox.checked = !allPhasesCheckbox.checked;
+                toggleAllPhases(allPhasesCheckbox.checked);
+            });
+            phaseButtonsContainer.appendChild(allButton);
+            
+            // 全选复选框事件
+            document.getElementById('allPhases').addEventListener('change', function() {
+                toggleAllPhases(this.checked);
+            });
+            
+            // 时间轴滑块事件
+            const timelineSlider = document.getElementById('timelineSlider');
+            const currentYearDisplay = document.getElementById('currentYear');
+            
+            timelineSlider.addEventListener('input', function() {
+                const year = this.value;
+                currentYearDisplay.textContent = year + '年';
+                updateMigrationChart();
+            });
+            
+            // 初始时选中所有阶段
+            function toggleAllPhases(showAll) {
+                const phaseButtons = document.querySelectorAll('.phase-btn[data-phase]');
+                
+                if (showAll) {
+                    phaseButtons.forEach(btn => {
+                        btn.classList.add('active');
+                        activePhases.add(btn.dataset.phase);
+                    });
+                } else {
+                    phaseButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        activePhases.delete(btn.dataset.phase);
+                    });
+                }
+                
+                updateMigrationChart();
+            }
+            
+            // 初始化全选
+            toggleAllPhases(true);
+            
+            // 更新ECharts图表
+            function updateMigrationChart() {
+                const selectedYear = parseInt(timelineSlider.value);
+                
+                // 筛选路线数据
+                const filteredRoutes = migrationData.filter(route => {
+                    // 检查阶段是否被选中
+                    if (!activePhases.has(route.phase)) return false;
+                    
+                    // 检查年份是否在范围内
+                    return route.startYear <= selectedYear;
+                });
+                
+                // 生成BJ_Data格式的路线数据
+                const BJ_Data = filteredRoutes.map(route => [
+                    {name: route.startCity},
+                    {name: route.endCity}
+                ]);
+                
+                // 转换数据格式供ECharts使用
+                const convertData = function (data) {
+                    var res = [];
+                    for (var i = 0; i < data.length; i++) {
+                        var dataItem = data[i];
+                        var fromCoord = geoCoordMap[dataItem[0].name];
+                        var toCoord = geoCoordMap[dataItem[1].name];
+                        if (fromCoord && toCoord) {
+                            res.push({
+                                fromName: dataItem[0].name,
+                                toName: dataItem[1].name,
+                                coords: [fromCoord, toCoord],
+                                lineStyle: {
+                                    color: filteredRoutes[i].color,
+                                    width: 1,
+                                    opacity: 0.6,
+                                    curveness: 0.2
+                                }
+                            });
+                        }
+                    }
+                    return res;
+                };
+                
+                // 使用 standard grid 模拟地图投影
+                const optionMigration = {
+                    backgroundColor: 'transparent',
+                    title: {
+                        text: '1933-1949 文物大迁徙',
+                        left: 'center',
+                        textStyle: { color: '#e6d2a9' }
+                    },
+                    tooltip: { 
+                        trigger: 'item',
+                        formatter: function(params) {
+                            if (params.componentType === 'series' && params.seriesType === 'lines') {
+                                const routeIndex = params.dataIndex;
+                                const routeData = filteredRoutes[routeIndex];
+                                return `
+                                <div style="font-weight:bold;color:#daa520;margin-bottom:5px;">${routeData.phase}</div>
+                                <div><strong>路线：</strong>${routeData.route}</div>
+                                <div><strong>时间：</strong>${routeData.years}</div>
+                                <div><strong>文物数量：</strong>${routeData.count.split('。')[0]}</div>
+                                <div><strong>存放地：</strong>${routeData.storage}</div>
+                                `;
+                            } else if (params.componentType === 'series' && params.seriesType === 'effectScatter') {
+                                return `<div><strong>${params.name}</strong><br/>文物迁移途经城市</div>`;
+                            }
+                            return params.name;
+                        },
+                        backgroundColor: 'rgba(26, 15, 12, 0.9)',
+                        borderColor: '#8a251c',
+                        borderWidth: 1,
+                        textStyle: {
+                            color: '#e6d2a9'
+                        }
+                    },
+                    grid: { top: 50, bottom: 50, left: 50, right: 50 },
+                    xAxis: { 
+                        type: 'value', 
+                        min: 100, max: 125, 
+                        show: false // 隐藏坐标轴
+                    },
+                    yAxis: { 
+                        type: 'value', 
+                        min: 20, max: 45, 
+                        show: false // 隐藏坐标轴
+                    },
+                    series: [
+                        {
+                            name: '地点',
+                            type: 'effectScatter',
+                            coordinateSystem: 'cartesian2d',
+                            zlevel: 2,
+                            rippleEffect: { brushType: 'stroke' },
+                            label: { 
+                                show: true, 
+                                position: 'right', 
+                                formatter: '{b}',
+                                color: '#e6d2a9',
+                                fontSize: 12,
+                                fontWeight: 'bold',
+                                textShadowColor: '#000',
+                                textShadowBlur: 5
+                            },
+                            symbolSize: 12,
+                            itemStyle: { 
+                                color: '#E2C33D',
+                                borderColor: '#8a251c',
+                                borderWidth: 2
+                            },
+                            data: Object.keys(geoCoordMap).map(function (key) {
+                                return { name: key, value: [...geoCoordMap[key], 10] };
+                            })
+                        },
+                        {
+                            name: '路线',
+                            type: 'lines',
+                            coordinateSystem: 'cartesian2d',
+                            zlevel: 1,
+                            effect: {
+                                show: true,
+                                period: 6,
+                                trailLength: 0.7,
+                                color: '#fff',
+                                symbolSize: 3
+                            },
+                            lineStyle: {
+                                color: '#a6c84c',
+                                width: 0,
+                                curveness: 0.2
+                            },
+                            data: convertData(BJ_Data)
+                        },
+                        {
+                            name: '路线轨迹',
+                            type: 'lines',
+                            coordinateSystem: 'cartesian2d',
+                            zlevel: 2,
+                            symbol: ['none', 'arrow'],
+                            symbolSize: 10,
+                            lineStyle: function(params) {
+                                // 根据运输方式设置颜色
+                                const routeIndex = params.dataIndex;
+                                const routeData = filteredRoutes[routeIndex];
+                                return {
+                                    color: routeData ? routeData.color : '#a6c84c',
+                                    width: 1,
+                                    opacity: 0.8,
+                                    curveness: 0.2
+                                };
+                            },
+                            data: convertData(BJ_Data)
+                        }
+                    ]
+                };
+                
+                migrationChart.setOption(optionMigration, true);
+                
+                // 添加点击事件，显示路线详细信息
+                migrationChart.on('click', function(params) {
+                    if (params.componentType === 'series' && params.seriesType === 'lines') {
+                        const routeIndex = params.dataIndex;
+                        const routeData = filteredRoutes[routeIndex];
+                        
+                        if (routeData) {
+                            document.getElementById('routeTitle').textContent = routeData.phase;
+                            document.getElementById('routePath').textContent = routeData.route;
+                            document.getElementById('routeTime').textContent = routeData.years;
+                            document.getElementById('routeCount').textContent = routeData.count;
+                            document.getElementById('routeStorage').textContent = routeData.storage;
+                            document.getElementById('routeEvent').textContent = routeData.event;
+                            
+                            // 显示路线信息框
+                            document.getElementById('routeInfo').style.display = 'block';
+                        }
+                    }
+                });
+            }
+            
+            // 初始加载ECharts图表
+            updateMigrationChart();
+            
+            // 响应式调整
+            window.addEventListener('resize', function() {
+                migrationChart.resize();
+            });
+            
+            // 初始化图表
+            initCharts();
+        });
+        // 修复过程步骤动画效果
+document.addEventListener('DOMContentLoaded', function() {
+    const processSteps = document.querySelectorAll('.process-step');
+    
+    // 创建观察器，实现滚动时步骤的淡入效果
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-step');
+                
+                // 为每个步骤添加延迟动画效果
+                const stepNumber = entry.target.querySelector('.step-number');
+                if (stepNumber) {
+                    stepNumber.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        stepNumber.style.transform = 'scale(1)';
+                    }, 300);
+                }
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    // 观察每个步骤
+    processSteps.forEach(step => {
+        observer.observe(step);
+    });
+});
+        
+              
+    </script>
+</body>
+</html>

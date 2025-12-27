@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>故宫守护史 - 制度与人物的百年传承</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Serif SC', serif;
+            color: #333;
+            background-color: #f5f1e8;
+            overflow-x: hidden;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(26, 15, 12, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            color: #e6d2a9;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: #e6d2a9;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #daa520;
+        }
+        
+        .back-to-main {
+            background-color: #daa520;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        /* 封面页样式 */
+        .cover-section {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a0f0c;
+        }
+        
+        .guardian-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('image/1.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+            filter: sepia(0.3);
+        }
+        
+        .cover-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: #fff;
+            padding: 2rem;
+            max-width: 1000px;
+        }
+        
+        .cover-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+            color: #e6d2a9;
+        }
+        
+        .cover-subtitle {
+            font-size: 1.8rem;
+            line-height: 1.8;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+            color: #fff;
+            margin-bottom: 2rem;
+        }
+        
+        .cover-intro {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            background-color: rgba(138, 37, 28, 0.7);
+            padding: 1.5rem;
+            border-radius: 8px;
+            max-width: 900px;
+            margin: 0 auto;
+            border-left: 5px solid #daa520;
+            text-align: left;
+        }
+        
+        .cover-intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .cover-intro p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: #fff;
+            text-align: center;
+            animation: bounce 2s infinite;
+        }
+        
+        .scroll-indicator i {
+            font-size: 1.8rem;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+        
+        /* 机构展示区域 */
+        .institutions-section {
+            min-height: 100vh;
+            background-color: #2d1c16;
+            padding: 5rem 2rem;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            color: #e6d2a9;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background-color: #b8860b;
+        }
+        
+        .institutions-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .institutions-intro {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #e6d2a9;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 4rem;
+            background-color: rgba(138, 37, 28, 0.3);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 5px solid #daa520;
+        }
+        
+        .institutions-slider {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            background-color: rgba(26, 15, 12, 0.6);
+            border-radius: 12px;
+            padding: 2rem 0;
+            border: 2px solid #8a251c;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .slider-container {
+            display: flex;
+            transition: transform 0.5s ease;
+            padding: 0 1rem;
+        }
+        
+        .institution-page {
+            min-width: 100%;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1.2rem;
+            padding: 0 1rem;
+        }
+        
+        .institution-item {
+            background-color: rgba(138, 37, 28, 0.8);
+            border-radius: 6px;
+            padding: 1.2rem;
+            color: #e6d2a9;
+            border: 2px solid #daa520;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            cursor: pointer;
+        }
+        
+        .institution-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            background-color: rgba(138, 37, 28, 0.9);
+            border-color: #e6d2a9;
+            height: auto;
+            min-height: 180px;
+        }
+        
+        .institution-icon {
+            font-size: 1.6rem;
+            color: #daa520;
+            margin-bottom: 0.8rem;
+            text-align: center;
+        }
+        
+        .institution-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            text-align: center;
+            line-height: 1.2;
+            min-height: 2.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .institution-content {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .institution-item:hover .institution-content {
+            opacity: 1;
+            max-height: 500px;
+            margin-top: 0.8rem;
+        }
+        
+        .institution-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #daa520;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .institution-item:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+            gap: 2rem;
+        }
+        
+        .slider-btn {
+            background-color: #8a251c;
+            color: #e6d2a9;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .slider-btn:hover {
+            background-color: #a52d22;
+            color: #daa520;
+            transform: scale(1.1);
+        }
+        
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+        
+        .slider-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #c4a97c;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .slider-dot.active {
+            background-color: #8a251c;
+            transform: scale(1.3);
+        }
+        
+        .page-indicator {
+            color: #e6d2a9;
+            font-size: 1.2rem;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        /* 数据展示区域 */
+        .data-section {
+            min-height: 80vh;
+            background-color: #f5f1e8;
+            padding: 5rem 2rem;
+        }
+        
+        .data-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .data-intro {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #333;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 4rem;
+            background-color: rgba(138, 37, 28, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 5px solid #8a251c;
+        }
+        
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .data-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #8a251c;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .data-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .data-icon {
+            font-size: 2.5rem;
+            color: #8a251c;
+            margin-bottom: 1rem;
+        }
+        
+        .data-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #2d1c16;
+            margin-bottom: 0.5rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .data-label {
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .data-trend {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            color: #8a251c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        /* 院长展示区域 - 垂直时间轴布局 */
+        .directors-section {
+            min-height: 100vh;
+            background-color: #2d1c16;
+            padding: 5rem 2rem;
+        }
+        
+        .directors-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .director-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        /* 时间轴竖线 */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background-color: #daa520;
+            transform: translateX(-50%);
+            z-index: 1;
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.5);
+        }
+        
+        .director-cards {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .director-card {
+            width: 50%;
+            padding: 1.5rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .director-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .director-card:nth-child(odd) {
+            left: 0;
+            padding-right: 3rem;
+        }
+        
+        .director-card:nth-child(even) {
+            left: 50%;
+            padding-left: 3rem;
+        }
+        
+        .director-tenure {
+            font-size: 1.8rem;
+            color: #daa520;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        
+        .director-content {
+            background-color: rgba(138, 37, 28, 0.8);
+            border-radius: 8px;
+            padding: 2rem;
+            border: 2px solid #daa520;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            color: #e6d2a9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .director-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            border: 4px solid #daa520;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .director-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .director-name {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #e6d2a9;
+            text-align: center;
+            border-bottom: 2px solid #daa520;
+            padding-bottom: 0.5rem;
+            width: 100%;
+        }
+        
+        .director-bio {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .director-achievements {
+            font-size: 1rem;
+            line-height: 1.5;
+            padding-left: 1.5rem;
+            width: 100%;
+        }
+        
+        .director-achievements li {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        
+        .director-achievements li:before {
+            content: "•";
+            color: #daa520;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .director-card:nth-child(odd) .director-tenure {
+            text-align: right;
+        }
+        
+        .director-card:nth-child(odd)::after {
+            content: "";
+            position: absolute;
+            right: -10px;
+            top: 50px;
+            width: 20px;
+            height: 20px;
+            background-color: #daa520;
+            border-radius: 50%;
+            border: 4px solid #8a251c;
+            z-index: 3;
+        }
+        
+        .director-card:nth-child(even)::after {
+            content: "";
+            position: absolute;
+            left: -10px;
+            top: 50px;
+            width: 20px;
+            height: 20px;
+            background-color: #daa520;
+            border-radius: 50%;
+            border: 4px solid #8a251c;
+            z-index: 3;
+        }
+        
+        /* 守护者故事区域 */
+        .stories-section {
+            min-height: 100vh;
+            background-color: #f5f1e8;
+            padding: 5rem 2rem;
+        }
+        
+        .stories-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .story-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border-top: 5px solid #8a251c;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .story-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .story-header {
+            padding: 2rem;
+            background-color: #8a251c;
+            color: #e6d2a9;
+            text-align: center;
+            position: relative;
+        }
+        
+        .story-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #daa520;
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .story-subtitle {
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+        
+        .story-body {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .story-desc {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #333;
+            flex-grow: 1;
+        }
+        
+        .story-years {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .year-item {
+            text-align: center;
+        }
+        
+        .year-number {
+            font-size: 1.8rem;
+            color: #8a251c;
+            font-weight: 700;
+        }
+        
+        .year-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #1a0f0c;
+            color: #e6d2a9;
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .footer-logo {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #daa520;
+        }
+        
+        .footer-nav {
+            margin: 1.5rem 0;
+        }
+        
+        .footer-nav a {
+            color: #e6d2a9;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        
+        .footer-nav a:hover {
+            color: #daa520;
+            text-decoration: underline;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1400px) {
+            .institution-page {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .cover-title {
+                font-size: 2.8rem;
+            }
+            
+            .institution-page {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .data-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            /* 院长时间轴响应式 */
+            .timeline-line {
+                left: 30px;
+            }
+            
+            .director-card {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 60px;
+                padding-right: 1.5rem;
+            }
+            
+            .director-card:nth-child(odd)::after,
+            .director-card:nth-child(even)::after {
+                left: 20px;
+                right: auto;
+            }
+            
+            .director-card:nth-child(odd) .director-tenure {
+                text-align: left;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .institution-page {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .institution-item {
+                height: 170px;
+            }
+            
+            .institution-title {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem;
+            }
+            
+            .cover-title {
+                font-size: 2.2rem;
+            }
+            
+            .cover-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .cover-intro {
+                font-size: 1.1rem;
+                padding: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .institution-page {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .institution-item {
+                height: auto;
+                min-height: 160px;
+            }
+            
+            .institution-title {
+                min-height: auto;
+            }
+            
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .director-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .director-image {
+                margin: 0 auto 1.5rem;
+            }
+            
+            .director-achievements {
+                text-align: left;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .cover-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .institutions-intro {
+                font-size: 1.1rem;
+                padding: 1.5rem;
+            }
+            
+            .institution-page {
+                grid-template-columns: 1fr;
+            }
+            
+            .director-img {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .director-name {
+                font-size: 1.8rem;
+            }
+            
+            .director-bio {
+                font-size: 1rem;
+            }
+            
+            .slider-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-landmark"></i>
+            <span>故宫博物院</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="space-open-history.html">空间开放史</a></li>
+            <li><a href="palace-protection-history.html">文物生命史</a></li>
+            <li><a href="guardian-history.html" class="active">故宫守护史</a></li>
+            <li><a href="culture-communication-history.html">文化传播史</a></li>
+            <li><a href="index.html" class="back-to-main">返回首页</a></li>
+        </ul>
+    </nav>
+    
+    <!-- 封面页 -->
+    <section class="cover-section">
+        <div class="guardian-bg"></div>
+        <div class="cover-content">
+            <h1 class="cover-title">故宫守护史</h1>
+            <p class="cover-subtitle">制度与人物的百年传承</p>
+            <div class="cover-intro">
+                <p>故宫的百年史并非一座城的历史，而是许多人的历史。从早期接管故宫、保护文物的学者，到如今数百名文物修复师、研究员、消防人员——这是一群"把一生献给文物"的人。</p>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+            <p>探索守护制度</p>
+        </div>
+    </section>
+    
+    <!-- 机构展示区域 -->
+    <section class="institutions-section">
+        <h2 class="section-title">故宫博物院机构设置</h2>
+        
+        <div class="institutions-intro">
+            <p>故宫博物院拥有完善的组织机构体系，涵盖行政管理、文物保护、学术研究、展览教育、安全保卫、开放服务等多个领域。全院共设40个职能部门，各司其职，共同守护着这座世界文化遗产。</p>
+        </div>
+        
+        <div class="institutions-container">
+            <div class="institutions-slider">
+                <div class="slider-container" id="sliderContainer">
+                    <!-- 机构页面将通过JavaScript动态生成 -->
+                </div>
+            </div>
+            
+            <div class="slider-controls">
+                <button class="slider-btn" id="prevPageBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="page-indicator" id="pageIndicator">第 1 页 / 共 4 页</div>
+                
+                <button class="slider-btn" id="nextPageBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <div class="slider-dots" id="sliderDots">
+                <!-- 导航点将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- 数据展示区域 -->
+    <section class="data-section">
+        <h2 class="section-title" style="color: #8a251c;">故宫守护者数据</h2>
+        
+        <div class="data-container">
+            <div class="data-intro">
+                <p>故宫博物院现有工作人员1800余人，其中专业技术人员占60%以上。这支专业的守护者队伍，分布在文物保护、学术研究、安全管理、开放服务等各个岗位，共同守护着186万余件文物和72万平方米的古建筑群。</p>
+            </div>
+            
+            <div class="data-grid" id="dataGrid">
+                <!-- 数据卡片将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- 院长展示区域 - 垂直时间轴布局 -->
+    <section class="directors-section">
+        <h2 class="section-title">故宫博物院历任院长</h2>
+        
+        <div class="directors-container">
+            <div class="director-timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="director-cards" id="directorCards">
+                    <!-- 院长卡片将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-logo">
+            <i class="fas fa-landmark"></i>
+        </div>
+        <p>故宫博物院 | 成立于1925年 | 世界文化遗产</p>
+        <div class="footer-nav">
+            <a href="space-open-history.html">空间开放史</a>
+            <a href="cultural-relic-history.html">文物生命史</a>
+            <li><a href="guardian-history.html">故宫守护史</a></li>
+            <li><a href="culture-communication-history.html">文化传播史</a></li>
+            <li><a href="index.html" class="back-to-main">返回首页</a></li>
+        </div>
+        <p>© 2025 故宫博物院百年纪念 | JIAJIA工作室</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 机构数据
+            const institutionsData = [
+                {
+                    title: "院办公室",
+                    content: "负责协调院内外日常业务往来，督查督办各类重要事项，处理全院文电、会务、机要、印信、投诉。",
+                    icon: "fas fa-building"
+                },
+                {
+                    title: "人事处",
+                    content: "负责机构编制管理、人事管理及人才队伍建设，工资、福利、社会保险审核管理及人事数据统计等工作。",
+                    icon: "fas fa-users"
+                },
+                {
+                    title: "财务处",
+                    content: "负责预算的编报、调整、审核、管理，各类国有资产的财务管理、会计核算，纳税申报、代扣代缴、政府采购等工作。",
+                    icon: "fas fa-calculator"
+                },
+                {
+                    title: "国际交流处",
+                    content: "负责涉外及涉港澳台各类交流与合作项目的协调、联络、谈判和实施，国（境）外团体和个人来院活动的审查及因公临时出国（境）团组的审查与申报等工作。",
+                    icon: "fas fa-globe"
+                },
+                {
+                    title: "法律处",
+                    content: "负责提供各类法律服务、预防法律风险、解决法律纠纷和开展法制宣传教育等工作。",
+                    icon: "fas fa-gavel"
+                },
+                {
+                    title: "文化产业管理处",
+                    content: "负责全院文化产业活动的管理、协调、授权等工作。",
+                    icon: "fas fa-industry"
+                },
+                {
+                    title: "审计处",
+                    content: "负责对我院及所属单位各类经济活动进行审计及风险管理、内控管理。",
+                    icon: "fas fa-chart-bar"
+                },
+                {
+                    title: "党委办公室",
+                    content: "负责履行贯彻党委决议，指导、监督党总支、各支部开展党建工作，是故宫博物院党委的工作机构。",
+                    icon: "fas fa-flag"
+                },
+                {
+                    title: "纪委办公室",
+                    content: "负责履行党的纪律检查职能，是故宫博物院党的纪律检查委员会的工作机构。",
+                    icon: "fas fa-balance-scale"
+                },
+                {
+                    title: "工会办公室",
+                    content: "负责维护职工合法权益，履行好民主决策、管理、监督职能，是工会委员会的工作机构。",
+                    icon: "fas fa-hands-helping"
+                },
+                {
+                    title: "离退人员服务处",
+                    content: "负责对离退休人员提供各类服务和保障等工作。",
+                    icon: "fas fa-user-friends"
+                },
+                {
+                    title: "事业发展部",
+                    content: "负责制订、细化我院各阶段事业发展规划，开展寻求、建立合作关系等工作。",
+                    icon: "fas fa-chart-line"
+                },
+                {
+                    title: "文物管理处",
+                    content: "负责统筹全院藏品管理，承担藏品账目信息登记和藏品出入库（院）审核，组织开展藏品征集和赴境内机构举办展览等工作。",
+                    icon: "fas fa-museum"
+                },
+                {
+                    title: "科研处",
+                    content: "负责管理、协调全院学术研究和博士后管理等工作，是故宫博物院学术委员会的常设办事机构。",
+                    icon: "fas fa-flask"
+                },
+                {
+                    title: "书画部",
+                    content: "负责院藏绘画、书法、碑帖类文物及资料的保管、陈列与研究等工作。",
+                    icon: "fas fa-paint-brush"
+                },
+                {
+                    title: "器物部",
+                    content: "负责院藏陶瓷、雕塑、金石、玉器、漆器、玻璃器、金银器、珐琅器、文房四宝、竹木牙角等类文物及资料的保管、陈列与研究等工作。",
+                    icon: "fas fa-gem"
+                },
+                {
+                    title: "宫廷历史部",
+                    content: "负责院藏宫廷典章类、生活类、宗教类、织绣类文物及资料的保管、陈列与研究等工作。",
+                    icon: "fas fa-crown"
+                },
+                {
+                    title: "文保科技部",
+                    content: "负责文物保护科技研究、技术开发和成果应用，同时推动重点实验室筹备工作。",
+                    icon: "fas fa-microscope"
+                },
+                {
+                    title: "展览部",
+                    content: "负责统筹、设计、推进院内举办的各种展览，并进行陈列展览相关研究。",
+                    icon: "fas fa-images"
+                },
+                {
+                    title: "数字与信息部",
+                    content: "负责信息化、数字化、智慧化的规划、咨询、研究、建设、服务与管理等工作。",
+                    icon: "fas fa-laptop-code"
+                },
+                {
+                    title: "图书馆",
+                    content: "负责院藏古籍文物的保管、陈列、研究，并提供文献检索、信息咨询服务及负责纸本与电子图书采购及借阅等工作。",
+                    icon: "fas fa-book"
+                },
+                {
+                    title: "古建部",
+                    content: "负责不可移动文物的测绘记录、价值挖掘研究；保护工程设计及相关工作；相关藏品的保管研究和展示；国家文物局相关科研基地的日常工作。",
+                    icon: "fas fa-archway"
+                },
+                {
+                    title: "社会教育部",
+                    content: "负责博物馆教育、公众服务、志愿者管理，同时负责国际博物馆协会培训中心培训工作。是故宫学院的统筹管理机构。",
+                    icon: "fas fa-graduation-cap"
+                },
+                {
+                    title: "故宫学研究院",
+                    content: "主要从事明清宫廷史、博物馆学、文物学、故宫学研究和负责组织开展各类学术交流合作，是各专业研究所的办事机构。",
+                    icon: "fas fa-university"
+                },
+                {
+                    title: "出版编辑部",
+                    content: "负责院出版项目规划与管理，同时负责院内刊物及出版物的出版编辑工作。",
+                    icon: "fas fa-newspaper"
+                },
+                {
+                    title: "修缮技艺部",
+                    content: "负责故宫官式古建筑营造技艺保护、传承、研究，并负责古建筑保护工程的组织实施，古树名木的保护、管理与研究以及宫廷园艺研究工作。",
+                    icon: "fas fa-tools"
+                },
+                {
+                    title: "考古部",
+                    content: "负责各类考古发掘和研究等工作。",
+                    icon: "fas fa-search"
+                },
+                {
+                    title: "故宫世界遗产监测部",
+                    content: "负责故宫世界遗产的普查、风险评估和底账管理；统筹遗产信息平台；制定有关监测管理工作的制度和技术规范标准，并统筹协调相关工作；组织编制故宫保护总体规划和遗产保护年度工作计划。",
+                    icon: "fas fa-shield-alt"
+                },
+                {
+                    title: "文保标准部",
+                    content: "主要负责开展文化遗产保护领域基础理论和标准体系研究，开展相关领域标准的制修订和推广，承担'中国－希腊文物保护技术'一带一路'联合实验室'工作，承担国际标准化组织（ISO）文化遗产保护技术委员会（筹）秘书处的工作。",
+                    icon: "fas fa-clipboard-check"
+                },
+                {
+                    title: "文保修复部",
+                    content: "负责院藏文物修复与复制及相关传统技艺和非物质文化遗产的保护与传承。",
+                    icon: "fas fa-hammer"
+                },
+                {
+                    title: "档案馆（院史陈列馆）",
+                    content: "负责院内各类档案收集、管理、研究和利用等工作。",
+                    icon: "fas fa-archive"
+                },
+                {
+                    title: "保卫处",
+                    content: "负责维护院内治安秩序，落实、检查安全制度和防范措施等工作。",
+                    icon: "fas fa-user-shield"
+                },
+                {
+                    title: "消防处",
+                    content: "负责院内消防安全工作演练、培训、监督和管理，消防设施管网建设与维护等工作。",
+                    icon: "fas fa-fire-extinguisher"
+                },
+                {
+                    title: "安全技术处",
+                    content: "负责院内安全技术防范系统的管理、建设、维护、研究等工作。",
+                    icon: "fas fa-video"
+                },
+                {
+                    title: "开放管理处",
+                    content: "负责开放时间、开放区域文物及观众安全，并为观众提供服务。",
+                    icon: "fas fa-door-open"
+                },
+                {
+                    title: "工程管理处",
+                    content: "负责不可移动文物保护与利用工程的综合管理，全流程代院监督；制定相关规章制度和流程规范；组建并管理专家库，对设计方案等组织论证审核；负责相关工程的报审报批及采购管理，负责甲供材的采购及管理。",
+                    icon: "fas fa-hard-hat"
+                },
+                {
+                    title: "行政处",
+                    content: "负责各类行政后勤管理和为职工提供各类服务保障等工作的职能部门。",
+                    icon: "fas fa-truck"
+                },
+                {
+                    title: "基建处",
+                    content: "负责基本建设项目的管理，并负责相关基础设施的维修与改造的部门。",
+                    icon: "fas fa-building"
+                },
+                {
+                    title: "北院区管理处",
+                    content: "负责北院区建筑、库房、各类设施的维护与管理及北院区日常安全管理等工作。",
+                    icon: "fas fa-map-marker-alt"
+                },
+                {
+                    title: "文创事业部",
+                    content: "负责文创产品的规划、设计、研发及销售等工作的部门。",
+                    icon: "fas fa-palette"
+                }
+            ];
+            
+            // 初始化机构展示
+            initInstitutions();
+            
+            // 数据卡片数据 - 调整为4个卡片
+            const dataCards = [
+                {
+                    icon: "fas fa-users",
+                    number: "1500+",
+                    label: "工作人员总数",
+                    trend: "同比增长 5%",
+                    trendIcon: "fas fa-arrow-up"
+                },
+                {
+                    icon: "fas fa-user-graduate",
+                    number: "900+",
+                    label: "专业技术人员",
+                    trend: "占员工总数 60%",
+                    trendIcon: "fas fa-chart-pie"
+                },
+                {
+                    icon: "fas fa-shield-alt",
+                    number: "240",
+                    label: "安保消防人员",
+                    trend: "24小时全天候值守",
+                    trendIcon: "fas fa-clock"
+                },
+                {
+                    icon: "fas fa-hammer",
+                    number: "120",
+                    label: "文物修复师",
+                    trend: "国家级大师",
+                    trendIcon: "fas fa-medal"
+                }
+            ];
+            
+            // 初始化数据展示
+            initDataCards();
+            
+            // 院长数据 - 按时间顺序排列
+            const directorsData = [
+                {
+                    name: "易培基",
+                    tenure: "1925-1933",
+                    bio: "易培基是故宫博物院的首任院长，为故宫的创建和发展奠定了重要基础。在任期间，他组织了文物清点、整理和保管工作，建立了故宫博物院的基本管理制度。",
+                    achievements: [
+                        "主持创建故宫博物院，制定早期管理制度",
+                        "组织文物清点与整理工作",
+                        "推动故宫向公众开放，促进文化传播"
+                    ],
+                    image: 'image/18.jpg'
+                },
+                {
+                    name: "马衡",
+                    tenure: "1934-1952",
+                    bio: "马衡是著名的考古学家和金石学家，在任期间推动了故宫文物的科学管理和研究工作。他特别注重文物的保护与研究，为故宫的学术发展做出了重要贡献。",
+                    achievements: [
+                        "推动文物南迁保护工作",
+                        "建立科学的文物分类与管理体系",
+                        "加强故宫学术研究功能"
+                    ],
+                    image: 'image/19.jpg'
+                },
+                {
+                    name: "吴仲超",
+                    tenure: "1954-1984",
+                    bio: "吴仲超在任期间长达30年，是故宫博物院任期最长的院长。他领导了故宫的大规模修缮和整理工作，恢复了故宫的开放，并推动了故宫学的发展。",
+                    achievements: [
+                        "领导故宫大规模修缮工程",
+                        "恢复并扩大故宫对公众开放",
+                        "推动建立故宫学学科体系"
+                    ],
+                    image: 'image/20.jpg'
+                },
+                {
+                    name: "张忠培",
+                    tenure: "1987-1991",
+                    bio: "张忠培是著名的考古学家，在任期间推动了故宫的现代化管理和学术研究。他特别注重故宫文物的科学保护和学术价值挖掘。",
+                    achievements: [
+                        "推动故宫现代化管理改革",
+                        "加强国际学术交流与合作",
+                        "促进文物科技保护研究"
+                    ],
+                    image: 'image/21.jpg'
+                },
+                {
+                    name: "郑欣淼",
+                    tenure: "2002-2012",
+                    bio: "郑欣淼在任期间推动了故宫的完整保护理念，实施了故宫百年大修工程。他提出了故宫学概念，并推动了故宫文化的深入研究和广泛传播。",
+                    achievements: [
+                        "实施故宫百年大修工程",
+                        "提出并推动故宫学发展",
+                        "扩大故宫国际影响力"
+                    ],
+                    image: 'image/22.jpg'
+                },
+                {
+                    name: "单霁翔",
+                    tenure: "2012-2019",
+                    bio: "单霁翔在任期间推动了故宫的'活起来'战略，大幅扩大开放区域，推出众多文创产品，使故宫成为文化IP。他注重游客体验和数字化建设，让故宫更加亲民。",
+                    achievements: [
+                        "故宫开放区域从30%扩大到80%",
+                        "推动故宫文创产业发展",
+                        "实施'数字故宫'工程"
+                    ],
+                    image: 'image/23.jpg'
+                },
+                {
+                    name: "王旭东",
+                    tenure: "2019至今",
+                    bio: "王旭东是文物保护专家，在任期间注重故宫文物的科学保护和可持续发展。他推动'平安故宫'工程，加强文物保护科技研究，促进故宫的可持续发展。",
+                    achievements: [
+                        "推动'平安故宫'工程",
+                        "加强文物保护科技研究",
+                        "促进故宫可持续发展"
+                    ],
+                    image: 'image/24.jpg'
+                }
+            ];
+            
+            // 初始化院长展示
+            initDirectors();
+            
+            
+            // 初始化守护者故事
+            initStories();
+            
+            // 初始化机构展示
+            function initInstitutions() {
+                const sliderContainer = document.getElementById('sliderContainer');
+                const prevPageBtn = document.getElementById('prevPageBtn');
+                const nextPageBtn = document.getElementById('nextPageBtn');
+                const pageIndicator = document.getElementById('pageIndicator');
+                const sliderDots = document.getElementById('sliderDots');
+                
+                const itemsPerPage = 12; // 每页显示12个
+                const totalPages = Math.ceil(institutionsData.length / itemsPerPage);
+                let currentPage = 0;
+                
+                // 生成分页点
+                for (let i = 0; i < totalPages; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = `slider-dot ${i === 0 ? 'active' : ''}`;
+                    dot.dataset.page = i;
+                    
+                    dot.addEventListener('click', function() {
+                        goToPage(parseInt(this.dataset.page));
+                    });
+                    
+                    sliderDots.appendChild(dot);
+                }
+                
+                // 将机构数据分页
+                for (let page = 0; page < totalPages; page++) {
+                    const pageStart = page * itemsPerPage;
+                    const pageEnd = pageStart + itemsPerPage;
+                    const pageInstitutions = institutionsData.slice(pageStart, pageEnd);
+                    
+                    const pageElement = document.createElement('div');
+                    pageElement.className = 'institution-page';
+                    pageElement.dataset.page = page;
+                    
+                    // 生成该页的机构项目
+                    pageInstitutions.forEach(institution => {
+                        const institutionItem = document.createElement('div');
+                        institutionItem.className = 'institution-item';
+                        institutionItem.innerHTML = `
+                            <div class="institution-icon">
+                                <i class="${institution.icon}"></i>
+                            </div>
+                            <h3 class="institution-title">${institution.title}</h3>
+                            <div class="institution-content">
+                                ${institution.content}
+                            </div>
+                        `;
+                        
+                        pageElement.appendChild(institutionItem);
+                    });
+                    
+                    sliderContainer.appendChild(pageElement);
+                }
+                
+                // 更新页面指示器
+                function updatePageIndicator() {
+                    pageIndicator.textContent = `第 ${currentPage + 1} 页 / 共 ${totalPages} 页`;
+                    
+                    // 更新分页点状态
+                    const dots = document.querySelectorAll('.slider-dot');
+                    dots.forEach((dot, index) => {
+                        if (index === currentPage) {
+                            dot.classList.add('active');
+                        } else {
+                            dot.classList.remove('active');
+                        }
+                    });
+                    
+                    // 更新滑块位置
+                    sliderContainer.style.transform = `translateX(-${currentPage * 100}%)`;
+                }
+                
+                // 切换到指定页面
+                function goToPage(page) {
+                    if (page < 0) page = totalPages - 1;
+                    if (page >= totalPages) page = 0;
+                    
+                    currentPage = page;
+                    updatePageIndicator();
+                }
+                
+                // 上一页按钮事件
+                prevPageBtn.addEventListener('click', function() {
+                    goToPage(currentPage - 1);
+                });
+                
+                // 下一页按钮事件
+                nextPageBtn.addEventListener('click', function() {
+                    goToPage(currentPage + 1);
+                });
+                
+                // 初始更新
+                updatePageIndicator();
+                
+                // 自动轮播（可选）
+                let autoSlideInterval = setInterval(() => {
+                    goToPage(currentPage + 1);
+                }, 10000);
+                
+                // 鼠标悬停时暂停轮播
+                sliderContainer.addEventListener('mouseenter', function() {
+                    clearInterval(autoSlideInterval);
+                });
+                
+                sliderContainer.addEventListener('mouseleave', function() {
+                    autoSlideInterval = setInterval(() => {
+                        goToPage(currentPage + 1);
+                    }, 10000);
+                });
+            }
+            
+            // 初始化数据卡片
+            function initDataCards() {
+                const dataGrid = document.getElementById('dataGrid');
+                
+                dataCards.forEach(card => {
+                    const dataCard = document.createElement('div');
+                    dataCard.className = 'data-card';
+                    dataCard.innerHTML = `
+                        <div class="data-icon">
+                            <i class="${card.icon}"></i>
+                        </div>
+                        <div class="data-number" data-target="${card.number.replace('+', '')}">0</div>
+                        <div class="data-label">${card.label}</div>
+                        <div class="data-trend">
+                            <i class="${card.trendIcon}"></i>
+                            <span>${card.trend}</span>
+                        </div>
+                    `;
+                    
+                    dataGrid.appendChild(dataCard);
+                });
+                
+                // 添加数字动画效果
+                animateNumbers();
+            }
+            
+            // 数字动画效果
+            function animateNumbers() {
+                const numberElements = document.querySelectorAll('.data-number');
+                
+                numberElements.forEach(element => {
+                    const target = parseInt(element.getAttribute('data-target'));
+                    const increment = target / 50;
+                    let current = 0;
+                    
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        
+                        // 格式化数字
+                        let displayNum;
+                        if (target >= 1000) {
+                            displayNum = Math.floor(current).toLocaleString();
+                        } else {
+                            displayNum = Math.floor(current);
+                        }
+                        
+                        // 如果原始数据有"+"号，添加回去
+                        const originalText = element.getAttribute('data-target');
+                        if (originalText.includes('+')) {
+                            displayNum += '+';
+                        }
+                        
+                        element.textContent = displayNum;
+                    }, 30);
+                });
+            }
+            
+            // 初始化院长展示（垂直时间轴布局）
+            function initDirectors() {
+                const directorCards = document.getElementById('directorCards');
+                
+                // 按时间顺序生成院长卡片
+                directorsData.forEach((director, index) => {
+                    const directorCard = document.createElement('div');
+                    directorCard.className = 'director-card';
+                    directorCard.innerHTML = `
+                        <div class="director-tenure">${director.tenure}</div>
+                        <div class="director-content">
+                            <div class="director-image">
+                                <img src="${director.image}" alt="${director.name}" class="director-img">
+                            </div>
+                            <h2 class="director-name">${director.name}</h2>
+                            <p class="director-bio">${director.bio}</p>
+                            <ul class="director-achievements">
+                                ${director.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                    
+                    directorCards.appendChild(directorCard);
+                });
+                
+                // 监听滚动事件，实现院长卡片渐显效果
+                window.addEventListener('scroll', handleDirectorScroll);
+                
+                // 初始检查一次滚动位置
+                handleDirectorScroll();
+            }
+            
+            // 处理院长时间轴滚动事件
+            function handleDirectorScroll() {
+                const directorCards = document.querySelectorAll('.director-card');
+                const directorsSection = document.querySelector('.directors-section');
+                
+                const sectionTop = directorsSection.offsetTop;
+                const sectionHeight = directorsSection.offsetHeight;
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const windowHeight = window.innerHeight;
+                
+                // 检查是否滚动到院长时间轴区域
+                if (scrollTop + windowHeight * 0.8 > sectionTop && scrollTop < sectionTop + sectionHeight) {
+                    directorCards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, index * 200);
+                    });
+                    
+                    // 移除滚动事件监听器，避免重复触发
+                    window.removeEventListener('scroll', handleDirectorScroll);
+                }
+            }
+            
+            // 初始化守护者故事
+            function initStories() {
+                const storiesGrid = document.getElementById('storiesGrid');
+                
+                storiesData.forEach(story => {
+                    const storyCard = document.createElement('div');
+                    storyCard.className = 'story-card';
+                    
+                    storyCard.innerHTML = `
+                        <div class="story-header">
+                            <div class="story-icon">
+                                <i class="${story.icon}"></i>
+                            </div>
+                            <h3 class="story-title">${story.title}</h3>
+                            <div class="story-subtitle">${story.subtitle}</div>
+                        </div>
+                        <div class="story-body">
+                            <p class="story-desc">${story.description}</p>
+                            <div class="story-years">
+                                <div class="year-item">
+                                    <div class="year-number">${story.years}</div>
+                                    <div class="year-label">${story.yearsLabel}</div>
+                                </div>
+                                <div class="year-item">
+                                    <div class="year-number">${story.projects}</div>
+                                    <div class="year-label">${story.projectsLabel}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    storiesGrid.appendChild(storyCard);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

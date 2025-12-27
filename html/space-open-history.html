@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>空间开放史 - 故宫空间的公共化进程</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Serif SC', serif;
+            color: #333;
+            background-color: #f5f1e8;
+            overflow-x: hidden;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(138, 37, 28, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            color: #e6d2a9;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: #e6d2a9;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #daa520;
+        }
+        
+        .back-to-main {
+            background-color: #daa520;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        /* 封面页样式 */
+        .cover-section {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a0f0c;
+        }
+        
+        .map-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('image/6.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.4;
+        }
+        
+        .cover-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: #fff;
+            padding: 2rem;
+            max-width: 900px;
+        }
+        
+        .cover-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+            color: #e6d2a9;
+        }
+        
+        .cover-subtitle {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+            color: #fff;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: #fff;
+            text-align: center;
+            animation: bounce 2s infinite;
+        }
+        
+        .scroll-indicator i {
+            font-size: 1.8rem;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+        
+        /* 交互地图区域 */
+        .map-section {
+            min-height: 100vh;
+            background-color: #2d1c16;
+            padding: 5rem 2rem;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            color: #e6d2a9;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background-color: #b8860b;
+        }
+        
+        .map-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .map-wrapper {
+            width: 100%;
+            height: 500px;
+            background-color: #1a0f0c;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 3rem;
+            border: 3px solid #8a251c;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .map-area {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .palace-area {
+            position: absolute;
+            border: 2px solid #8a251c;
+            background-color: rgba(138, 37, 28, 0.3);
+            transition: all 0.5s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .palace-area:hover {
+            z-index: 10;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.8);
+        }
+        
+        .palace-area.open {
+            background-color: rgba(218, 165, 32, 0.7);
+            border-color: #daa520;
+            box-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
+        }
+        
+        .palace-area span {
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+        
+        .palace-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(26, 15, 12, 0.9);
+            color: #e6d2a9;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 5px solid #daa520;
+            max-width: 400px;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 20;
+        }
+        
+        .palace-info h3 {
+            color: #daa520;
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+        
+        /* 时间轴控制 */
+        .timeline-control {
+            width: 100%;
+            max-width: 1000px;
+            margin: 2rem auto 0;
+            background-color: rgba(26, 15, 12, 0.8);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid #8a251c;
+        }
+        
+        .year-display {
+            text-align: center;
+            color: #daa520;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .timeline-slider {
+            width: 100%;
+            height: 20px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(to right, #8a251c, #daa520, #8a251c);
+            outline: none;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e6d2a9;
+            cursor: pointer;
+            border: 3px solid #daa520;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .timeline-slider::-moz-range-thumb {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e6d2a9;
+            cursor: pointer;
+            border: 3px solid #daa520;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .timeline-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+        
+        .timeline-marker {
+            color: #e6d2a9;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .timeline-marker:hover {
+            background-color: rgba(138, 37, 28, 0.5);
+            color: #daa520;
+        }
+        
+        .timeline-marker.active {
+            background-color: #8a251c;
+            color: #daa520;
+        }
+        
+        /* 图表区域 */
+        .chart-section {
+            min-height: 100vh;
+            background-color: #f5f1e8;
+            padding: 5rem 2rem;
+        }
+        
+        .chart-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid #8a251c;
+        }
+        
+        .chart-title {
+            text-align: center;
+            color: #8a251c;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-wrapper {
+            width: 100%;
+            height: 400px;
+            position: relative;
+        }
+        
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0 1rem 1rem;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #1a0f0c;
+            color: #e6d2a9;
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .footer-logo {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #daa520;
+        }
+        
+        .footer-nav {
+            margin: 1.5rem 0;
+        }
+        
+        .footer-nav a {
+            color: #e6d2a9;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        
+        .footer-nav a:hover {
+            color: #daa520;
+            text-decoration: underline;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1100px) {
+            .cover-title {
+                font-size: 2.8rem;
+            }
+            
+            .map-wrapper {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem;
+            }
+            
+            .cover-title {
+                font-size: 2.2rem;
+            }
+            
+            .cover-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .map-wrapper {
+                height: 350px;
+            }
+            
+            .palace-area span {
+                font-size: 0.7rem;
+            }
+            
+            .chart-wrapper {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cover-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .map-wrapper {
+                height: 300px;
+            }
+            
+            .year-display {
+                font-size: 1.5rem;
+            }
+            
+            .chart-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-landmark"></i>
+            <span>故宫博物院</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="space-open-history.html" class="active">空间开放史</a></li>
+            <li><a href="palace-protection-history.html">文物生命史</a></li>
+            <li><a href="guardian-history.html">故宫守护史</a></li>
+            <li><a href="culture-communication-history.html">文化传播史</a></li>
+            <li><a href="index.html" class="back-to-main">返回首页</a></li>
+        </ul>
+    </nav>
+    
+    <!-- 封面页 -->
+    <section class="cover-section">
+        <div class="map-bg"></div>
+        <div class="cover-content">
+            <h1 class="cover-title">空间开放史</h1>
+            <p class="cover-subtitle">故宫空间的公共化进程</p>
+            <p class="cover-subtitle" style="font-size: 1.3rem; margin-top: 2rem;">
+                1925年故宫博物院成立时，真正对公众开放的区域不足整座紫禁城的10%
+            </p>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+            <p>探索开放历程</p>
+        </div>
+    </section>
+    
+    <!-- 交互地图区域 -->
+    <section class="map-section">
+        <h2 class="section-title">故宫开放区域演变图</h2>
+        
+        <div class="map-container">
+            <div class="map-wrapper">
+                <div class="map-area" id="palaceMap">
+                    <!-- 宫殿区域将通过JavaScript动态生成 -->
+                </div>
+                <div class="palace-info" id="palaceInfo">
+                    <h3 id="palaceName">太和殿</h3>
+                    <p id="palaceDescription">太和殿，俗称金銮殿，是明清两代北京紫禁城宫殿建筑，东方三大殿之一，是中国现存最大的木结构大殿。</p>
+                    <p id="palaceYear"><strong>开放年份：</strong><span>1925年</span></p>
+                </div>
+            </div>
+            
+            <div class="timeline-control">
+                <div class="year-display" id="currentYear">1925年</div>
+                <input type="range" min="1925" max="2025" value="1925" step="20" class="timeline-slider" id="yearSlider">
+                <div class="timeline-markers" id="yearMarkers">
+                    <!-- 年份标记将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 图表区域 -->
+    <section class="chart-section">
+        <h2 class="section-title" style="color: #8a251c;">故宫开放区域面积变化</h2>
+        
+        <div class="chart-container">
+            <h3 class="chart-title">故宫开放区域百分比变化 (1925-2025)</h3>
+            <div class="chart-wrapper">
+                <canvas id="areaChart"></canvas>
+            </div>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgba(138, 37, 28, 0.8);"></div>
+                    <span>开放区域百分比</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgba(218, 165, 32, 0.8);"></div>
+                    <span>年参观人数(百万)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-logo">
+            <i class="fas fa-landmark"></i>
+        </div>
+        <p>故宫博物院 | 成立于1925年 | 世界文化遗产</p>
+        <div class="footer-nav">
+            <a href="home.html">首页</a>
+            <a href="space-open-history.html">空间开放史</a>
+            <a href="palace-protection-history.html">文物生命史</a>
+            <a href="guardian-history.html">故宫守护史</a>
+            <a href="culture-communication-history.html">文化传播史</a>
+        </div>
+        <p>© 2025 故宫博物院百年纪念 | JIAJIA工作室</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 宫殿数据 - 模拟故宫的主要建筑
+            const palaceData = [
+                { id: 'taihe', name: '太和殿', year: 1925, left: '20%', top: '15%', width: '12%', height: '10%', description: '太和殿，俗称金銮殿，是明清两代北京紫禁城宫殿建筑，东方三大殿之一，是中国现存最大的木结构大殿。' },
+                { id: 'zhonghe', name: '中和殿', year: 1925, left: '33%', top: '15%', width: '8%', height: '8%', description: '中和殿位于太和殿后，是皇帝去太和殿大典之前休息的地方，并接受执事官员的朝拜的地方。' },
+                { id: 'baohe', name: '保和殿', year: 1925, left: '42%', top: '15%', width: '12%', height: '10%', description: '保和殿是北京故宫外朝三大殿之一，位于中和殿后，建成于明永乐十八年(1420年)。' },
+                { id: 'qianqing', name: '乾清宫', year: 1925, left: '25%', top: '35%', width: '10%', height: '12%', description: '乾清宫是内廷后三宫之一，建筑规模为内廷之首，明朝的14个皇帝和清代的顺治、康熙两个皇帝，都以乾清宫为寝宫。' },
+                { id: 'jiaotai', name: '交泰殿', year: 1925, left: '36%', top: '35%', width: '8%', height: '8%', description: '交泰殿位于乾清宫和坤宁宫之间，殿名取自《易经》，含"天地交合、康泰美满"之意。' },
+                { id: 'kunning', name: '坤宁宫', year: 1925, left: '45%', top: '35%', width: '10%', height: '12%', description: '坤宁宫是北京故宫内廷后三宫之一，位于交泰殿后面，在明代是皇后的寝宫。' },
+                { id: 'yangxin', name: '养心殿', year: 1945, left: '10%', top: '35%', width: '8%', height: '10%', description: '养心殿位于内廷乾清宫西侧，清代有八位皇帝先后居住在养心殿，是清代皇帝使用时间最长的宫殿。' },
+                { id: 'chuxiu', name: '储秀宫', year: 1955, left: '60%', top: '30%', width: '8%', height: '10%', description: '储秀宫为明清两代后妃居住的宫殿，慈禧太后曾在此居住，也是末代皇帝溥仪的皇后婉容的居所。' },
+                { id: 'yonghe', name: '永和宫', year: 1965, left: '70%', top: '30%', width: '8%', height: '10%', description: '永和宫是明清宫殿建筑，属于内廷东六宫之一，现为故宫博物院青铜器馆。' },
+                { id: 'jingren', name: '景仁宫', year: 1975, left: '15%', top: '55%', width: '8%', height: '10%', description: '景仁宫是内廷东六宫之一，明代时为嫔妃居所，现为故宫博物院捐献文物纪念专馆。' },
+                { id: 'chengqian', name: '承乾宫', year: 1985, left: '25%', top: '55%', width: '8%', height: '10%', description: '承乾宫为内廷东六宫之一，明清两代均为后妃居所，现为故宫博物院青铜器馆展厅。' },
+                { id: 'zhongcui', name: '钟粹宫', year: 1995, left: '35%', top: '55%', width: '8%', height: '10%', description: '钟粹宫为内廷东六宫之一，明代为妃嫔所居，清代为皇后居所，现为故宫博物院玉器馆。' },
+                { id: 'yikun', name: '翊坤宫', year: 2005, left: '55%', top: '55%', width: '8%', height: '10%', description: '翊坤宫为内廷西六宫之一，明清两代后妃居住的宫殿，现为故宫博物院宫廷生活文物展厅。' },
+                { id: 'chuxiu2', name: '长春宫', year: 2015, left: '65%', top: '55%', width: '8%', height: '10%', description: '长春宫为内廷西六宫之一，明清两代后妃居住的宫殿，现为故宫博物院戏曲文物展厅。' },
+                { id: 'taiji', name: '太极殿', year: 2025, left: '75%', top: '55%', width: '8%', height: '10%', description: '太极殿为内廷西六宫之一，原名未央宫，清代改称太极殿，现为故宫博物院钟表馆展厅。' },
+            ];
+            
+            // 初始化地图
+            const palaceMap = document.getElementById('palaceMap');
+            const palaceInfo = document.getElementById('palaceInfo');
+            const palaceName = document.getElementById('palaceName');
+            const palaceDescription = document.getElementById('palaceDescription');
+            const palaceYear = document.getElementById('palaceYear');
+            
+            // 生成宫殿区域
+            palaceData.forEach(palace => {
+                const palaceElement = document.createElement('div');
+                palaceElement.className = 'palace-area';
+                palaceElement.id = palace.id;
+                palaceElement.style.left = palace.left;
+                palaceElement.style.top = palace.top;
+                palaceElement.style.width = palace.width;
+                palaceElement.style.height = palace.height;
+                palaceElement.innerHTML = `<span>${palace.name}</span>`;
+                
+                // 添加悬停事件
+                palaceElement.addEventListener('mouseenter', function() {
+                    palaceName.textContent = palace.name;
+                    palaceDescription.textContent = palace.description;
+                    palaceYear.querySelector('span').textContent = palace.year + '年';
+                    palaceInfo.style.display = 'block';
+                });
+                
+                palaceElement.addEventListener('mouseleave', function() {
+                    palaceInfo.style.display = 'none';
+                });
+                
+                palaceMap.appendChild(palaceElement);
+            });
+            
+            // 时间轴控制
+            const yearSlider = document.getElementById('yearSlider');
+            const currentYear = document.getElementById('currentYear');
+            const yearMarkers = document.getElementById('yearMarkers');
+            
+            // 生成年份标记
+            const years = [1925, 1945, 1965, 1985, 2005, 2025];
+            years.forEach(year => {
+                const marker = document.createElement('div');
+                marker.className = 'timeline-marker';
+                if (year === 1925) marker.classList.add('active');
+                marker.textContent = year + '年';
+                marker.dataset.year = year;
+                
+                marker.addEventListener('click', function() {
+                    yearSlider.value = year;
+                    updateYear(year);
+                    updateMap(year);
+                    
+                    // 更新激活标记
+                    document.querySelectorAll('.timeline-marker').forEach(m => {
+                        m.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+                
+                yearMarkers.appendChild(marker);
+            });
+            
+            // 滑块变化事件
+            yearSlider.addEventListener('input', function() {
+                const year = parseInt(this.value);
+                updateYear(year);
+                updateMap(year);
+                
+                // 更新激活标记
+                document.querySelectorAll('.timeline-marker').forEach(marker => {
+                    if (parseInt(marker.dataset.year) === year) {
+                        marker.classList.add('active');
+                    } else {
+                        marker.classList.remove('active');
+                    }
+                });
+            });
+            
+            // 更新年份显示
+            function updateYear(year) {
+                currentYear.textContent = year + '年';
+            }
+            
+            // 更新地图显示
+            function updateMap(year) {
+                palaceData.forEach(palace => {
+                    const palaceElement = document.getElementById(palace.id);
+                    if (palace.year <= year) {
+                        palaceElement.classList.add('open');
+                    } else {
+                        palaceElement.classList.remove('open');
+                    }
+                });
+            }
+            
+            // 初始化地图状态
+            updateMap(1925);
+            
+            // 初始化图表
+            initChart();
+        });
+        
+        // 初始化面积变化图表
+        function initChart() {
+            const ctx = document.getElementById('areaChart').getContext('2d');
+            
+            // 数据：年份和对应的开放面积百分比
+            const years = [1925, 1945, 1965, 1985, 2005, 2025];
+            const areaPercentages = [10, 20, 35, 50, 75, 85];
+            const visitorCounts = [0.1, 0.5, 1.2, 3.5, 8.5, 15.2]; // 百万人
+            
+            // 创建折线图
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years.map(year => year + '年'),
+                    datasets: [
+                        {
+                            label: '开放区域百分比',
+                            data: areaPercentages,
+                            borderColor: 'rgba(138, 37, 28, 1)',
+                            backgroundColor: 'rgba(138, 37, 28, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.3,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: '年参观人数(百万)',
+                            data: visitorCounts,
+                            borderColor: 'rgba(218, 165, 32, 1)',
+                            backgroundColor: 'rgba(218, 165, 32, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.3,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: '年份',
+                                color: '#8a251c',
+                                font: {
+                                    size: 16,
+                                    family: "'Noto Serif SC', serif"
+                                }
+                            },
+                            ticks: {
+                                color: '#333'
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: '开放区域百分比 (%)',
+                                color: '#8a251c',
+                                font: {
+                                    size: 16,
+                                    family: "'Noto Serif SC', serif"
+                                }
+                            },
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                color: '#333'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: '年参观人数 (百万)',
+                                color: '#daa520',
+                                font: {
+                                    size: 16,
+                                    family: "'Noto Serif SC', serif"
+                                }
+                            },
+                            min: 0,
+                            max: 20,
+                            ticks: {
+                                color: '#333'
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                        },
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(26, 15, 12, 0.9)',
+                            titleColor: '#daa520',
+                            bodyColor: '#e6d2a9',
+                            borderColor: '#8a251c',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.datasetIndex === 0) {
+                                        label += context.parsed.y + '%';
+                                    } else {
+                                        label += context.parsed.y + ' 百万';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+    </script>
+</body>
+</html>
